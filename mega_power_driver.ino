@@ -14,6 +14,6 @@ void setup()
 void loop()
 {
     val = analogRead(analogPin);     // считываем значение
-    Serial.println(val);
-    Serial.println((1.1 / 1024.) * val);             // выводим полученное значение
+//    Serial.println(val);
+    Serial.println( (236. * val) / 885);             // выводим полученное значение
 }
