@@ -11,8 +11,10 @@
 #define POWER_PIN 36
 #define MAX_INPUT_SIZE 80
 
+#define VOLTAGE_PIN 3
 
 uint16_t dimming = 0;
+double outVoltage = 0;
 char input[MAX_INPUT_SIZE];
 
 
@@ -55,10 +57,25 @@ void setup() {
     sei();
 }
 
+void mathDimming() {
 
+    float currentVoltage = (236. * analogRead(VOLTAGE_PIN)) / 885.;
+    float percent = ((outVoltage * 100) / currentVoltage);
+    dimming = (TIME_TO_DOWN / 100.) * percent;
+
+    Serial.print("Current voltage: ");
+    Serial.println(currentVoltage);
+    Serial.print("Output voltage: ");
+    Serial.println(outVoltage);
+    Serial.print("Current percent: ");
+    Serial.println(percent);
+    Serial.print("Current dimming: ");
+    Serial.println(dimming);
+}
 
 void loop() {
-
+    mathDimming();
+    // Чтение значения с клавиатуры
     int available = Serial.available();
     if (!available)
         return;
@@ -66,12 +83,11 @@ void loop() {
     size_t reading = Serial.readBytesUntil('\n', input, MAX_INPUT_SIZE - 1);
     input[reading] = 0;
 
-    double value = strtod(input, NULL);
+    outVoltage = strtod(input, NULL);
 
-    if(value < 0)
-        value = 0;
-    if(value > 220)
-        value = 220;
-
-    dimming = (TIME_TO_DOWN / 100) * value;
+    if (outVoltage < 0)
+        outVoltage = 0;
+    if (outVoltage > 190)
+        outVoltage = 190;
+    delay(100);
 }
