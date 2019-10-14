@@ -58,24 +58,26 @@ void setup() {
 }
 
 void mathDimming() {
-
     float currentVoltage = (236. * analogRead(VOLTAGE_PIN)) / 885.;
+
+    if (currentVoltage == 0)
+        return;
+
     float percent = ((outVoltage * 100) / currentVoltage);
     dimming = (TIME_TO_DOWN / 100.) * percent;
+}
 
-    Serial.print("Current voltage: ");
-    Serial.println(currentVoltage);
-    Serial.print("Output voltage: ");
-    Serial.println(outVoltage);
-    Serial.print("Current percent: ");
-    Serial.println(percent);
-    Serial.print("Current dimming: ");
-    Serial.println(dimming);
+double reMathVoltage(double value) {
+    if (value < 50)
+        return value;
+
+    return (value + 25.83)/1.45;
 }
 
 void loop() {
     mathDimming();
-    // Чтение значения с клавиатуры
+
+    // Чтение значения с последовательного порта
     int available = Serial.available();
     if (!available)
         return;
@@ -83,11 +85,12 @@ void loop() {
     size_t reading = Serial.readBytesUntil('\n', input, MAX_INPUT_SIZE - 1);
     input[reading] = 0;
 
-    outVoltage = strtod(input, NULL);
+    double tmpVal = strtod(input, NULL);
 
-    if (outVoltage < 0)
-        outVoltage = 0;
-    if (outVoltage > 190)
-        outVoltage = 190;
-    delay(100);
+    if (tmpVal < 0)
+        tmpVal = 0;
+    if (tmpVal > 190)
+        tmpVal = 190;
+
+    outVoltage = reMathVoltage(tmpVal);
 }
