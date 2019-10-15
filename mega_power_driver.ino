@@ -2,7 +2,7 @@
 #include "User_Setup.h"
 
 #define TIME_TO_DOWN 0x4AE0
-
+#define NULL_PIN 2
 #define TIME_10_uS 0x0015
 
 #define START_TIMER_256 (TCCR1B = (1 << CS11)) // Таймер работает в clk / 256
@@ -47,7 +47,7 @@ void setup() {
 
     pinMode(POWER_PIN, OUTPUT);
 
-    attachInterrupt(INT2, null_up, RISING);
+    attachInterrupt(digitalPinToInterrupt(NULL_PIN), null_up, RISING);
 
     // Для точности расчета входного напряжения используем внутреннее опорное напряжение в 1.1В
     analogReference(INTERNAL1V1);
