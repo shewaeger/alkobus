@@ -24,6 +24,21 @@ set(${PROJECT_NAME}_SKETCH mega_power_driver.ino)
 # For this example (libs will contain additional arduino libraries)
 # An Arduino library my_lib will contain files in libs/my_lib/: my_lib.h, my_lib.cpp + any other cpp files
 link_directories(${CMAKE_CURRENT_SOURCE_DIR}/libraries)
+link_directories(${CMAKE_CURRENT_SOURCE_DIR}/modules)
+
+#set(files
+#        OneWire.h
+#        OneWire.cpp
+#        LiquidCrystal_I2C.h
+#        LiquidCrystal_I2C.cpp
+#        temperature.h
+#        temperature.cpp
+#        temperature_utils.hpp
+#        voltage.h
+#        voltage.cpp
+#        keyboard.h
+#        keyboard.cpp
+#        )
 
 # For nested library sources replace ${LIB_NAME} with library name for each library
 # set(_RECURSE true)
