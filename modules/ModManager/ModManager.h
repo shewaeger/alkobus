@@ -10,6 +10,7 @@
 #include <Keyboard.h>
 #include <temperature.h>
 #include <voltage.h>
+#include <LiquidCrystal_I2C.h>
 
 class ModManager {
 private:
@@ -19,14 +20,16 @@ private:
     Keyboard *keyboard;
     Temperature *temperature;
     VoltageControl *voltageControl;
-
+    LiquidCrystal_I2C *lcd;
     ModManager();
 public:
     static ModManager * getManager();
 
     EventBus * getEventBus();
+    LiquidCrystal_I2C * getLCD();
     void setup();
     void loop();
+
 };
 
 #endif //MEGA_POWER_DRIVER_MODMANAGER_H
