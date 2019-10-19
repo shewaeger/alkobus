@@ -11,8 +11,8 @@ void Temperature::setup() {
     byte addr[8];
     byte rom[9];
     while (this->oneWire.search(addr)) {
-        Thermometer *data = (Thermometer *) malloc(sizeof(Thermometer));
-        memcpy(data->addr, addr, 8);
+        Thermometer data;
+        memcpy(data.addr, addr, 8);
 
         this->oneWire.write(0x44); // Начинаем конверсию
 
@@ -32,16 +32,11 @@ void Temperature::setup() {
         if (cfg == 0x00) raw = raw & ~7;  // 9 bit resolution, 93.75 ms
         else if (cfg == 0x20) raw = raw & ~3; // 10 bit res, 187.5 ms
         else if (cfg == 0x40) raw = raw & ~1; // 11 bit res, 375 ms
-        data->temperature = (float)raw / 16.;
+        data.temperature = (float)raw / 16.;
 
 
-        if (this->thermometer_list == NULL) {
-            this->thermometer_list = CREATE_ELEMENT();
-            this->thermometer_list->next = NULL;
-            this->thermometer_list->prev = NULL;
-            this->thermometer_list->data = data;
-        } else
-            push_list_element(this->thermometer_list, data);
+
+        push_list_element(&this->thermometer_list, &data, sizeof(Thermometer));
     }
 }
 

@@ -2,7 +2,6 @@
 #include "User_Setup.h"
 #include <ModManager.h>
 
-
 void setup() {
     Serial.begin(9600);
     Serial.println("Starting....");
