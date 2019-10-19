@@ -43,3 +43,7 @@ EventBus *ModManager::getEventBus() {
 LiquidCrystal_I2C *ModManager::getLCD() {
     return lcd;
 }
+
+Temperature *ModManager::getThermometers() {
+    return this->temperature;
+}

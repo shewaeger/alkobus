@@ -27,6 +27,7 @@ public:
 
     EventBus * getEventBus();
     LiquidCrystal_I2C * getLCD();
+    Temperature * getThermometers();
     void setup();
     void loop();
 

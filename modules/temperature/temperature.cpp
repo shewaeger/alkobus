@@ -81,3 +81,7 @@ Temperature::Temperature(uint8_t dataPin, EventBus *eventBus) :
         conversionBegin(0),
         eventBus(eventBus){
 }
+
+list_element *Temperature::getThermometerList() {
+    return this->thermometer_list;
+}

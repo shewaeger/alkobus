@@ -19,17 +19,23 @@ void loop() {
         Serial.println("Event receive");
         switch (event->type) {
             case TEMPERATURE_UPDATE_EVENT: {
-                Serial.println("TYPE: temperature_update_event");
                 Thermometer *thermometer = (Thermometer *) event->data;
-                Serial.print("ADDRESS: ");
                 for (int i = 0; i < 8; i++) {
                     if (thermometer->addr[i] < 0x10)
                         Serial.print("0");
                     Serial.print(thermometer->addr[i], HEX);
                 }
-                Serial.println();
-                Serial.print("TEMPERATURE: ");
-                Serial.println(thermometer->temperature);
+                list_element *list = manager->getThermometers()->getThermometerList();
+                size_t count = count_list(list);
+                manager->getLCD()->clear();
+                char Tstr[10];
+                for (int i = 0; i < count; i++) {
+                    Thermometer *t = (Thermometer *) get_list_element(list, i);
+                    manager->getLCD()->setCursor((i % 2) * 8, i >= 2);
+                    manager->getLCD()->print("T:");
+                    dtostrf(t->temperature, 5, 1, Tstr);
+                    manager->getLCD()->print(Tstr);
+                }
                 break;
             }
             case LONG_PUSH_KEY_EVENT: {
