@@ -23,22 +23,55 @@ set(${PROJECT_NAME}_SKETCH mega_power_driver.ino)
 ### Additional settings to add non-standard or your own Arduino libraries.
 # For this example (libs will contain additional arduino libraries)
 # An Arduino library my_lib will contain files in libs/my_lib/: my_lib.h, my_lib.cpp + any other cpp files
+
+generate_arduino_library(
+        list_utils
+        SRCS modules/list_utils/list_utils.cpp
+        HDRS modules/list_utils/list_utils.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+)
+
+generate_arduino_library(
+        EventBus
+        SRCS modules/EventBus/EventBus.cpp
+        HDRS modules/EventBus/EventBus.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS list_utils
+        )
+
+generate_arduino_library(
+        Keyboard
+        SRCS modules/Keyboard/Keyboard.cpp
+        HDRS modules/Keyboard/Keyboard.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS EventBus
+)
+
+generate_arduino_library(
+        temperature
+        SRCS modules/temperature/temperature.cpp
+        HDRS modules/temperature/temperature.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS list_utils EventBus
+)
+
+generate_arduino_library(
+        voltage
+        SRCS modules/voltage/voltage.cpp
+        HDRS modules/voltage/voltage.cpp
+        BOARD ${${PROJECT_NAME}_BOARD}
+)
+
+generate_arduino_library(
+        ModManager
+        SRCS modules/ModManager/ModManager.cpp
+        HDRS modules/ModManager/ModManager.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS voltage temperature Keyboard EventBus
+)
+
 link_directories(${CMAKE_CURRENT_SOURCE_DIR}/libraries)
 link_directories(${CMAKE_CURRENT_SOURCE_DIR}/modules)
-
-#set(files
-#        OneWire.h
-#        OneWire.cpp
-#        LiquidCrystal_I2C.h
-#        LiquidCrystal_I2C.cpp
-#        temperature.h
-#        temperature.cpp
-#        temperature_utils.hpp
-#        voltage.h
-#        voltage.cpp
-#        keyboard.h
-#        keyboard.cpp
-#        )
 
 # For nested library sources replace ${LIB_NAME} with library name for each library
 # set(_RECURSE true)
@@ -51,4 +84,4 @@ set(mega.upload.speed 9600)
 ## Verbose build process
 set(${PROJECT_NAME}_AFLAGS -v)
 
-generate_arduino_firmware(${PROJECT_NAME})
+generate_arduino_firmware(${PROJECT_NAME} LIBS ModManager)

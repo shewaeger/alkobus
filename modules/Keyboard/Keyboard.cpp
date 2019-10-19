@@ -2,9 +2,8 @@
 // Created by shewa on 16.10.19.
 //
 
-#include "keyboard.h"
-
-#define NOP 1
+#include <EventBus.h>
+#include "Keyboard.h"
 
 void Keyboard::setup() {
     digitalWrite(this->buttonOkPin, HIGH);
@@ -24,28 +23,25 @@ void Keyboard::loop() {
         this->pushTime++;
 
         if (this->pushTime > LONG_PUSH_TIME + LONG_PUSH_EVENT_TIME) {
-            Serial.print("long: ");
-            Serial.println(button, HEX);
-            NOP; // долгое нажатие клавиши. Генерируется раз в LONG_PUSH_EVENT_TIME тиков
             this->pushTime = LONG_PUSH_TIME; // защита от переполнения переменной
+            this->generateEvent(LONG_PUSH_KEY_EVENT);
         }
 
     } else {
         lastKey = button;
         this->pushTime = 0;
-        Serial.print("short: ");
-        Serial.println(button, HEX);
-        NOP;// Короткое нажатие клавиши (генерируется один раз)
+        this->generateEvent(SHORT_PUSH_KEY_EVENT);
     }
 
 }
 
-Keyboard::Keyboard(uint8_t ok, uint8_t left, uint8_t right, uint8_t down, uint8_t up) {
+Keyboard::Keyboard(uint8_t ok, uint8_t left, uint8_t right, uint8_t down, uint8_t up, EventBus * eventBus) {
     this->buttonOkPin = ok;
     this->buttonLeftPin = left;
     this->buttonRightPin = right;
     this->buttonDownPin = down;
     this->buttonUpPin = up;
+    this->eventBus = eventBus;
 }
 
 uint8_t Keyboard::getCurrentButton() {
@@ -60,4 +56,8 @@ uint8_t Keyboard::getCurrentButton() {
     if (!digitalRead(this->buttonUpPin))
         return BUTTON_UP;
     return NO_BUTTONS;
+}
+
+void Keyboard::generateEvent(uint8_t type) {
+    this->eventBus->generateEvent(type, &this->lastKey, sizeof(this->lastKey));
 }

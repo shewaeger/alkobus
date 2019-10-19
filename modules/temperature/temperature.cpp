@@ -3,13 +3,15 @@
 //
 
 #include "temperature.h"
-#include "temperature_utils.hpp"
-#define NOP 1
+#include <list_utils.h>
+
+#include <EventBus.h>
+
 void Temperature::setup() {
     byte addr[8];
     byte rom[9];
     while (this->oneWire.search(addr)) {
-        thermometer *data = (thermometer *) malloc(sizeof(thermometer));
+        Thermometer *data = (Thermometer *) malloc(sizeof(Thermometer));
         memcpy(data->addr, addr, 8);
 
         this->oneWire.write(0x44); // Начинаем конверсию
@@ -44,7 +46,7 @@ void Temperature::setup() {
 }
 
 void Temperature::loop() {
-    thermometer *current = (thermometer *) get_list_element(this->thermometer_list, this->current_thermometer);
+    Thermometer *current = (Thermometer *) get_list_element(this->thermometer_list, this->current_thermometer);
     if(!this->conversionBegin){
         this->oneWire.reset();
         this->oneWire.select(current->addr);
@@ -65,11 +67,8 @@ void Temperature::loop() {
 
         int16_t raw = (rom[1] << 8) | rom[0];
         current->temperature = (float)raw / 16.;
-        NOP; // Событие об измеренной температуре
-        Serial.print("Current temperature ");
-        Serial.print(this->current_thermometer);
-        Serial.print(": ");
-        Serial.println(current->temperature);
+
+        this->eventBus->generateEvent(TEMPERATURE_UPDATE_EVENT, current, sizeof(Thermometer));
 
         this->conversionBegin = 0;
 
@@ -79,10 +78,11 @@ void Temperature::loop() {
     }
 }
 
-Temperature::Temperature(uint8_t dataPin) :
+Temperature::Temperature(uint8_t dataPin, EventBus *eventBus) :
         dataPin(dataPin),
         oneWire(dataPin),
         thermometer_list(NULL),
         current_thermometer(0),
-        conversionBegin(0){
+        conversionBegin(0),
+        eventBus(eventBus){
 }

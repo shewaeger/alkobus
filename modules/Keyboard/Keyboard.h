@@ -5,7 +5,6 @@
 #ifndef MEGA_POWER_DRIVER_KEYBOARD_H
 #define MEGA_POWER_DRIVER_KEYBOARD_H
 
-#include <modules/Control.h>
 #include <Arduino.h>
 
 #define LONG_PUSH_TIME 2000
@@ -18,7 +17,9 @@
 #define BUTTON_DOWN 8
 #define BUTTON_UP 16
 
-class Keyboard : public Control {
+class EventBus;
+
+class Keyboard {
 private:
     uint8_t buttonUpPin;
     uint8_t buttonDownPin;
@@ -30,7 +31,10 @@ private:
 
     uint32_t pushTime = 0;
 
+    EventBus * eventBus;
+
     uint8_t getCurrentButton();
+    void generateEvent(uint8_t type);
 public:
     Keyboard() :
             buttonOkPin(22),
@@ -39,7 +43,7 @@ public:
             buttonDownPin(28),
             buttonUpPin(30) {}
 
-            Keyboard(uint8_t ok, uint8_t left, uint8_t right, uint8_t down, uint8_t up);
+            Keyboard(uint8_t ok, uint8_t left, uint8_t right, uint8_t down, uint8_t up, EventBus *eventBus);
 
     void setup();
 

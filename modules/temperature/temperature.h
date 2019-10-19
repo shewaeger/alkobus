@@ -6,18 +6,26 @@
 #define MEGA_POWER_DRIVER_TEMPERATURE_H
 
 
-#include <modules/Control.h>
 #include <OneWire.h>
+
+struct Thermometer {
+    uint8_t addr[8];
+    float temperature;
+};
+
+class EventBus;
+
 struct list_element;
-class Temperature : public Control{
+class Temperature {
 private:
     OneWire oneWire;
     uint8_t dataPin;
     list_element *thermometer_list;
     int current_thermometer;
     uint8_t conversionBegin;
+    EventBus *eventBus;
 public:
-    Temperature(uint8_t dataPin);
+    Temperature(uint8_t dataPin, EventBus *eventBus);
     void setup();
     void loop();
 };

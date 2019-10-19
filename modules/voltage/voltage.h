@@ -1,7 +1,6 @@
 
-#include <modules/Control.h>
 #include <Arduino.h>
-class VoltageControl: public Control{
+class VoltageControl{
 
 private:
     float currentVoltage;
