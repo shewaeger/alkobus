@@ -19,7 +19,8 @@ void MainMenu::backgroundLoop() {
 }
 
 void MainMenu::setup() {
-    Program::setup();
+    ModManager::getManager()->getLCD()->setCursor(0,0);
+    ModManager::getManager()->getLCD()->print("Hello");
 }
 
 void MainMenu::loop() {

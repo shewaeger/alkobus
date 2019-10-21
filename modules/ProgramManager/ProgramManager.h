@@ -5,8 +5,8 @@
 #ifndef MEGA_POWER_DRIVER_PROGRAMMANAGER_H
 #define MEGA_POWER_DRIVER_PROGRAMMANAGER_H
 
+#include <Program.h>
 class ProgramManager {
-
     static ProgramManager *manager;
 
 public:

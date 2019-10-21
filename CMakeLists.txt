@@ -25,7 +25,7 @@ set(${PROJECT_NAME}_SKETCH mega_power_driver.ino)
 # An Arduino library my_lib will contain files in libs/my_lib/: my_lib.h, my_lib.cpp + any other cpp files
 
 generate_arduino_library(
-        list_utils
+        ListUtils
         SRCS modules/list_utils/list_utils.cpp
         HDRS modules/list_utils/list_utils.h
         BOARD ${${PROJECT_NAME}_BOARD}
@@ -36,7 +36,7 @@ generate_arduino_library(
         SRCS modules/EventBus/EventBus.cpp
         HDRS modules/EventBus/EventBus.h
         BOARD ${${PROJECT_NAME}_BOARD}
-        LIBS list_utils
+        LIBS ListUtils
         )
 
 generate_arduino_library(
@@ -52,7 +52,7 @@ generate_arduino_library(
         SRCS modules/temperature/temperature.cpp
         HDRS modules/temperature/temperature.h
         BOARD ${${PROJECT_NAME}_BOARD}
-        LIBS list_utils EventBus
+        LIBS ListUtils EventBus
 )
 
 generate_arduino_library(
@@ -83,7 +83,7 @@ generate_arduino_library(
         SRCS modules/MainMenu/MainMenu.cpp
         HDRS modules/MainMenu/MainMenu.h
         BOARD ${${PROJECT_NAME}_BOARD}
-        LIBS Program ModManager EventBus
+        LIBS Program
 )
 
 generate_arduino_library(
@@ -91,7 +91,7 @@ generate_arduino_library(
         SRCS modules/ProgramManager/ProgramManager.cpp
         HDRS modules/ProgramManager/ProgramManager.h
         BOARD ${${PROJECT_NAME}_BOARD}
-        LIBS Program MainMenu
+        LIBS MainMenu
 )
 
 link_directories(${CMAKE_CURRENT_SOURCE_DIR}/libraries)

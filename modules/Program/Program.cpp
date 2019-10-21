@@ -4,7 +4,6 @@
 
 #include "Program.h"
 #include <ModManager.h>
-#include <LiquidCrystal_I2C.h>
 #include <EventBus.h>
 
 Program::Program() {
@@ -15,7 +14,7 @@ void Program::backgroundLoop() {
 }
 
 void Program::setup() {
-    ModManager::getManager()->getLCD()->print("Hello");
+
 }
 
 void Program::loop() {

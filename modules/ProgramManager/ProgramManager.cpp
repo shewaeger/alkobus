@@ -40,6 +40,6 @@ void ProgramManager::setup() {
     ModManager *manager = ModManager::getManager();
     LiquidCrystal_I2C * lcd = manager->getLCD();
     lcd->clear();
-    Program mainMenu = MainMenu();
-    mainMenu.setup();
+    MainMenu menu = MainMenu();
+    menu.setup();
 }
