@@ -3,21 +3,19 @@
 #include <ModManager.h>
 #include <MainMenu.h>
 
-//#include <ProgramManager.h>
+#include <ProgramManager.h>
 
 void setup() {
     Serial.begin(9600);
     Serial.println("Starting....");
     ModManager *manager = ModManager::getManager();
     manager->setup();
-//    ProgramManager::getManager()->setup();
+    ProgramManager::getManager()->setup();
     Serial.println("Started.");
 
 }
 
 void loop() {
     ModManager::getManager()->loop();
-//    ProgramManager::getManager()->loop();
-    Program * p = new MainMenu();
-    p->setup();
+    ProgramManager::getManager()->loop();
 }
