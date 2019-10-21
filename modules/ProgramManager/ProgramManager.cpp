@@ -3,6 +3,7 @@
 //
 
 #include "ProgramManager.h"
+#include <Arduino.h>
 #include <ModManager.h>
 #include <EventBus.h>
 #include <LiquidCrystal_I2C.h>
@@ -12,6 +13,8 @@
 ProgramManager* ProgramManager::manager = NULL;
 
 ProgramManager *ProgramManager::getManager() {
+    if(!manager)
+        manager = new ProgramManager();
     return manager;
 }
 
@@ -28,7 +31,7 @@ void ProgramManager::loop() {
                 //TODO: action on exit_event
                 break;
             default: {
-
+                this->menu->event(event);
             }
         }
 
@@ -40,6 +43,6 @@ void ProgramManager::setup() {
     ModManager *manager = ModManager::getManager();
     LiquidCrystal_I2C * lcd = manager->getLCD();
     lcd->clear();
-    MainMenu menu = MainMenu();
-    menu.setup();
+    this->menu = new MainMenu;
+    this->menu->setup();
 }

@@ -5,10 +5,12 @@
 #ifndef MEGA_POWER_DRIVER_PROGRAMMANAGER_H
 #define MEGA_POWER_DRIVER_PROGRAMMANAGER_H
 
-#include <Program.h>
+class MainMenu;
+
 class ProgramManager {
     static ProgramManager *manager;
 
+    MainMenu * menu;
 public:
     static ProgramManager* getManager();
     void loop();

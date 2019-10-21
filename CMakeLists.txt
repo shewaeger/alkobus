@@ -108,4 +108,4 @@ set(mega.upload.speed 9600)
 ## Verbose build process
 set(${PROJECT_NAME}_AFLAGS -v)
 
-generate_arduino_firmware(${PROJECT_NAME} LIBS ModManager)
+generate_arduino_firmware(${PROJECT_NAME} LIBS ModManager ProgramManager)

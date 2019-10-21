@@ -16,7 +16,7 @@ public:
 
     void backgroundLoop() override;
 
-    void setup() override;
+    virtual void setup() override;
 
     void loop() override;
 
