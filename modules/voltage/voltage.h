@@ -1,5 +1,6 @@
 
-#include <Arduino.h>
+#include <avr/io.h>
+
 class VoltageControl{
 
 private:

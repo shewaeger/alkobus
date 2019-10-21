@@ -70,6 +70,30 @@ generate_arduino_library(
         LIBS voltage temperature Keyboard EventBus
 )
 
+generate_arduino_library(
+        Program
+        SRCS modules/Program/Program.cpp
+        HDRS modules/Program/Program.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS ModManager EventBus
+)
+
+generate_arduino_library(
+        MainMenu
+        SRCS modules/MainMenu/MainMenu.cpp
+        HDRS modules/MainMenu/MainMenu.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS Program ModManager EventBus
+)
+
+generate_arduino_library(
+        ProgramManager
+        SRCS modules/ProgramManager/ProgramManager.cpp
+        HDRS modules/ProgramManager/ProgramManager.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS Program MainMenu
+)
+
 link_directories(${CMAKE_CURRENT_SOURCE_DIR}/libraries)
 link_directories(${CMAKE_CURRENT_SOURCE_DIR}/modules)
 

@@ -5,12 +5,11 @@
 #ifndef MEGA_POWER_DRIVER_MODMANAGER_H
 #define MEGA_POWER_DRIVER_MODMANAGER_H
 
-#include <list_utils.h>
-#include <EventBus.h>
-#include <Keyboard.h>
-#include <temperature.h>
-#include <voltage.h>
-#include <LiquidCrystal_I2C.h>
+class EventBus;
+class Keyboard;
+class Temperature;
+class VoltageControl;
+class LiquidCrystal_I2C;
 
 class ModManager {
 private:

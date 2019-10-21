@@ -8,7 +8,8 @@
 #define LONG_PUSH_KEY_EVENT 1
 #define SHORT_PUSH_KEY_EVENT 2
 #define TEMPERATURE_UPDATE_EVENT 4
-
+#define PROGRAM_EXIT_EVENT 8
+#define PROGRAM_RUN_EVENT 16
 #include <stdlib.h>
 #include <inttypes.h>
 struct Event{

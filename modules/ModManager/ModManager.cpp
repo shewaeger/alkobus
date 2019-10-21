@@ -2,6 +2,12 @@
 // Created by shewa on 19.10.19.
 //
 
+#include <stddef.h>
+#include <EventBus.h>
+#include <temperature.h>
+#include <voltage.h>
+#include <Keyboard.h>
+#include <LiquidCrystal_I2C.h>
 #include "ModManager.h"
 
 ModManager *ModManager::manager = NULL;
