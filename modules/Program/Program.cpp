@@ -3,6 +3,7 @@
 //
 
 #include "Program.h"
+#include <Arduino.h>
 #include <ModManager.h>
 #include <EventBus.h>
 #include <LiquidCrystal_I2C.h>
@@ -29,7 +30,7 @@ void Program::event(Event *) {
 
 void Program::exit() {
     Program * program = this;
-    ModManager::getManager()->getEventBus()->generateEvent(PROGRAM_EXIT_EVENT, &program, sizeof(program));
+    ModManager::getManager()->getEventBus()->generateEvent(PROGRAM_EXIT_EVENT, &program, sizeof(Program *));
 }
 
 Program::~Program() {

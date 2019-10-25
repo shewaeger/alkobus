@@ -53,3 +53,7 @@ LiquidCrystal_I2C *ModManager::getLCD() {
 Temperature *ModManager::getThermometers() {
     return this->temperature;
 }
+
+VoltageControl *ModManager::getVoltageControl() {
+    return this->voltageControl;
+}

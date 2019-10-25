@@ -74,7 +74,7 @@ void *get_list_element(list_element *begin, size_t pos) {
         return NULL;
     size_t i = 0;
     list_element *element;
-    for (element = begin; element->next != NULL && i < pos; element = element->next, i++);
+    for (element = begin; element->next != NULL && i != pos; element = element->next, i++);
 
     if (i != pos)
         return NULL;

@@ -11,13 +11,19 @@ void VoltageControl::loop() {
 }
 
 void VoltageControl::setVoltage(float voltage) {
+
+    if(voltage < 0)
+        voltage = 0;
+    if(voltage > 190)
+        voltage = 190;
+
     this->currentVoltage = voltage;
 
     this->trueOutputVoltage = reMathVoltage(voltage);
 }
 
 void VoltageControl::reMathDimming() {
-    float currentVoltage = (236. * analogRead(VOLTAGE_PIN)) / 883.;
+    float currentVoltage = getInputVoltage();
 
     if (currentVoltage == 0)
         return;
@@ -37,6 +43,6 @@ float VoltageControl::getCurrentVoltage() {
     return this->currentVoltage;
 }
 
-float VoltageControl::getOutputVoltage() {
-    return this->outputVoltage;
+float VoltageControl::getInputVoltage(){
+   return (236. * analogRead(VOLTAGE_PIN)) / 883.;
 }

@@ -8,10 +8,7 @@ struct list_element {
     void *data;
 };
 
-
-
 #define CREATE_ELEMENT() ((list_element*)malloc(sizeof(list_element)))
-#define DELETE_ELEMENT(el) (free(el))
 
 
 void push_list_element(list_element **begin, void *data, size_t size);

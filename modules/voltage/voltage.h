@@ -5,7 +5,6 @@ class VoltageControl{
 
 private:
     float currentVoltage;
-    float outputVoltage;
     float trueOutputVoltage;
     uint16_t dimming;
 
@@ -19,5 +18,6 @@ public:
 
     void setVoltage(float voltage);
     float getCurrentVoltage();
-    float getOutputVoltage();
+
+    static float getInputVoltage();
 };

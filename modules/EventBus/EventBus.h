@@ -10,6 +10,8 @@
 #define TEMPERATURE_UPDATE_EVENT 4
 #define PROGRAM_EXIT_EVENT 8
 #define PROGRAM_RUN_EVENT 16
+#define CHILD_EXIT_EVENT 32
+
 #include <stdlib.h>
 #include <inttypes.h>
 struct Event{

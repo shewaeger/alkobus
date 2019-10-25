@@ -8,21 +8,26 @@
 #include <EventBus.h>
 #include <Program.h>
 
+struct list_element;
+
 class MainMenu : public Program{
+private:
+    unsigned int counter;
+
+    list_element * items;
+
 public:
     MainMenu();
 
     ~MainMenu() override;
 
-    void backgroundLoop() override;
+    virtual void backgroundLoop() override;
 
     virtual void setup() override;
 
-    void loop() override;
+    virtual void loop() override;
 
-    void event(Event *event) override;
-
-    void exit() override;
+    virtual void event(Event *event) override;
 
 public:
 

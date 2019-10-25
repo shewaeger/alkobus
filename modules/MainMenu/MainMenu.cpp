@@ -22,12 +22,15 @@ void MainMenu::backgroundLoop() {
 
 void MainMenu::setup() {
     LiquidCrystal_I2C *lcd = ModManager::getManager()->getLCD();
+    this->counter = 0;
     lcd->setCursor(0,0);
     lcd->print("hello");
 }
 
 void MainMenu::loop() {
-
+    LiquidCrystal_I2C *lcd = ModManager::getManager()->getLCD();
+    lcd->setCursor(0, 1);
+    lcd->print(counter++);
 }
 
 void MainMenu::event(Event *event) {
@@ -60,6 +63,3 @@ void MainMenu::event(Event *event) {
 
 }
 
-void MainMenu::exit() {
-    Program::exit();
-}
