@@ -15,6 +15,8 @@ void Keyboard::setup() {
 
 void Keyboard::loop() {
     uint8_t button = getCurrentButton();
+//    Serial.print("PUSH_TIME: ");
+//    Serial.println(this->pushTime);
     if (button == NO_BUTTONS) {
         this->lastKey = NO_BUTTONS;
         this->pushTime = 0;

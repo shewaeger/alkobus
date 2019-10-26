@@ -30,14 +30,16 @@ void TemperatureProgram::setup() {
 void TemperatureProgram::loop() {
     LiquidCrystal_I2C *lcd = ModManager::getManager()->getLCD();
     VoltageControl *voltage = ModManager::getManager()->getVoltageControl();
-
+    char voltageOut[7];
     lcd->setCursor(0, !currentLine);
     lcd->print(" ");
     lcd->setCursor(0, currentLine);
     lcd->print((char)0x7e);
 
+    dtostrf(this->voltage, 5, 1, voltageOut);
+
     lcd->setCursor(6, 0);
-    lcd->print(this->voltage);
+    lcd->print(voltageOut);
 
     if(!(voltageCounter % 64)) {
         lcd->setCursor(9, 1);
