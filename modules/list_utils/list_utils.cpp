@@ -23,7 +23,7 @@ void push_list_element(list_element **begin, void *data, size_t size) {
 }
 
 void remove_list_element(list_element **begin, size_t pos){
-    if(begin == NULL)
+    if(begin == NULL || *begin == NULL)
         return;
 
     size_t i = 0;
@@ -43,13 +43,20 @@ void remove_list_element(list_element **begin, size_t pos){
     if(prev != NULL)
         prev->next = next;
 
-    if(el == *begin && el->next == NULL)
-        *begin = NULL;
+
+    if(el == *begin){
+        if(el->next == NULL)
+            *begin = NULL;
+        else
+            *begin = el->next;
+    }
 
     free(el);
 }
 
 void remove_list_element_by_data(list_element **begin, void *data) {
+    if(*begin == NULL)
+        return;
     list_element *el;
     int i = 0;
 

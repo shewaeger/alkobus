@@ -8,8 +8,7 @@
 void setup() {
     Serial.begin(9600);
     Serial.println("Starting....");
-    ModManager *manager = ModManager::getManager();
-    manager->setup();
+    ModManager::getManager()->setup();
     ProgramManager::getManager()->setup();
     Serial.println("Started.");
 

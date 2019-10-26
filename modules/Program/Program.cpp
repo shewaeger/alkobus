@@ -29,8 +29,8 @@ void Program::event(Event *) {
 }
 
 void Program::exit() {
-    Program * program = this;
-    ModManager::getManager()->getEventBus()->generateEvent(PROGRAM_EXIT_EVENT, &program, sizeof(Program *));
+    void * program = this;
+    ModManager::getManager()->getEventBus()->generateEvent(PROGRAM_EXIT_EVENT, &program, sizeof(void *));
 }
 
 Program::~Program() {
