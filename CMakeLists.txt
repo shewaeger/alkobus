@@ -85,7 +85,13 @@ generate_arduino_library(
         BOARD ${${PROJECT_NAME}_BOARD}
         LIBS Program
 )
-
+generate_arduino_library(
+        TemperatureProgram
+        SRCS modules/TemperatureProgram/TemperatureProgram.cpp
+        HDRS modules/TemperatureProgram/TemperatureProgram.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS Program
+)
 generate_arduino_library(
         MainMenu
         SRCS modules/MainMenu/MainMenu.cpp
