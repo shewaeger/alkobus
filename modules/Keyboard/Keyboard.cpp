@@ -33,6 +33,7 @@ void Keyboard::loop() {
         lastKey = button;
         this->pushTime = 0;
         this->generateEvent(SHORT_PUSH_KEY_EVENT);
+        Serial.println("SHORT_PUSH_KEY_EVENT");
     }
 
 }

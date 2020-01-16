@@ -10,11 +10,11 @@
 #define NULL_PIN 2
 #define TIME_10_uS 0x0015
 
-#define START_TIMER_256 (TCCR1B = (1 << CS11)) // Таймер работает в clk / 256
+#define START_TIMER_256 (TCCR1B = (1 << CS11)) // Таймер работает в clk / 8
 #define STOP_TIMER (TCCR1B = 0)
 
 // Пин для подключения вывода, который управляет диммированием.
-#define POWER_PIN 36
+#define POWER_PIN 4
 // Пин для измерения входного напряжения
 #define VOLTAGE_PIN 3
 uint16_t dimmingGlob;
