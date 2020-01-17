@@ -6,6 +6,11 @@
 #include "Keyboard.h"
 
 void Keyboard::setup() {
+    pinMode(this->buttonUpPin, INPUT);
+    pinMode(this->buttonLeftPin, INPUT);
+    pinMode(this->buttonRightPin, INPUT);
+    pinMode(this->buttonDownPin, INPUT);
+    pinMode(this->buttonOkPin, INPUT);
     digitalWrite(this->buttonOkPin, HIGH);
     digitalWrite(this->buttonLeftPin, HIGH);
     digitalWrite(this->buttonRightPin, HIGH);
@@ -15,8 +20,6 @@ void Keyboard::setup() {
 
 void Keyboard::loop() {
     uint8_t button = getCurrentButton();
-//    Serial.print("PUSH_TIME: ");
-//    Serial.println(this->pushTime);
     if (button == NO_BUTTONS) {
         this->lastKey = NO_BUTTONS;
         this->pushTime = 0;
@@ -33,7 +36,6 @@ void Keyboard::loop() {
         lastKey = button;
         this->pushTime = 0;
         this->generateEvent(SHORT_PUSH_KEY_EVENT);
-        Serial.println("SHORT_PUSH_KEY_EVENT");
     }
 
 }

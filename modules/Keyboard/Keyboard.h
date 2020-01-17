@@ -8,7 +8,7 @@
 #include <Arduino.h>
 
 #define LONG_PUSH_TIME 40
-#define LONG_PUSH_EVENT_TIME 1
+#define LONG_PUSH_EVENT_TIME 5
 
 #define NO_BUTTONS 0
 #define BUTTON_OK 1

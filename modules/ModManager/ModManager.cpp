@@ -22,7 +22,7 @@ ModManager::ModManager() {
     this->eventBus = new EventBus();
     this->temperature = new Temperature(10, this->eventBus);
     this->voltageControl = new VoltageControl();
-    this->keyboard = new Keyboard(22, 24, 26, 28, 30, this->eventBus);
+    this->keyboard = new Keyboard(31, 29, 27, 25, 23, this->eventBus);
     this->lcd = new LiquidCrystal_I2C(0x3f, 16, 2);
 }
 
