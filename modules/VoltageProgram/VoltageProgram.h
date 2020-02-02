@@ -12,7 +12,7 @@ class VoltageProgram : public Program {
 private:
     double voltage;
     uint64_t voltageCounter;
-
+    bool valveSwitch;
     int currentLine;
 public:
 

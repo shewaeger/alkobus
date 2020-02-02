@@ -10,7 +10,7 @@ class Keyboard;
 class Temperature;
 class VoltageControl;
 class LiquidCrystal_I2C;
-
+class Valve;
 class ModManager {
 private:
     static ModManager *manager;
@@ -20,6 +20,7 @@ private:
     Temperature *temperature;
     VoltageControl *voltageControl;
     LiquidCrystal_I2C *lcd;
+    Valve *valve;
     ModManager();
 public:
     static ModManager * getManager();
@@ -28,6 +29,7 @@ public:
     LiquidCrystal_I2C * getLCD();
     Temperature * getThermometers();
     VoltageControl * getVoltageControl();
+    Valve *getValve();
     void setup();
     void loop();
 

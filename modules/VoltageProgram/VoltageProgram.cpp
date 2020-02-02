@@ -8,6 +8,7 @@
 #include "ModManager.h"
 #include "LiquidCrystal_I2C.h"
 #include "voltage.h"
+#include <Valve.h>
 
 void VoltageProgram::backgroundLoop() {
     Program::backgroundLoop();
@@ -59,8 +60,14 @@ void VoltageProgram::event(Event *event) {
         currentLine += (code == BUTTON_UP) ? -1 : +1;
     }
 
-    if(currentLine && code == BUTTON_OK)
-        this->exit();
+    if(currentLine && code == BUTTON_OK) {
+//        this->exit();
+        if(valveSwitch)
+            ModManager::getManager()->getValve()->open();
+        else
+            ModManager::getManager()->getValve()->close();
+        valveSwitch = !valveSwitch;
+    }
 
     if(code == BUTTON_RIGHT || code == BUTTON_LEFT){
         VoltageControl *vc = ModManager::getManager()->getVoltageControl();

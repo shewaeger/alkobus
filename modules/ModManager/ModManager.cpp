@@ -9,7 +9,7 @@
 #include <Keyboard.h>
 #include <LiquidCrystal_I2C.h>
 #include "ModManager.h"
-
+#include <Valve.h>
 ModManager *ModManager::manager = NULL;
 
 ModManager *ModManager::getManager() {
@@ -24,6 +24,7 @@ ModManager::ModManager() {
     this->voltageControl = new VoltageControl();
     this->keyboard = new Keyboard(31, 29, 27, 25, 23, this->eventBus);
     this->lcd = new LiquidCrystal_I2C(0x3f, 16, 2);
+    this->valve = new Valve(51);
 }
 
 void ModManager::setup() {
@@ -40,6 +41,7 @@ void ModManager::loop() {
     this->temperature->loop();
     this->voltageControl->loop();
     this->keyboard->loop();
+    this->valve->loop();
 }
 
 EventBus *ModManager::getEventBus() {
@@ -56,4 +58,8 @@ Temperature *ModManager::getThermometers() {
 
 VoltageControl *ModManager::getVoltageControl() {
     return this->voltageControl;
+}
+
+Valve *ModManager::getValve() {
+    return this->valve;
 }
