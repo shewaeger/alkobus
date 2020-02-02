@@ -18,8 +18,8 @@ void Valve::open() {
 Valve::Valve(int pin, bool mode) {
     this->pin = pin;
     this->mode = mode;
-    this->close();
     pinMode(this->pin, OUTPUT);
+    this->close();
 
 }
 
@@ -54,14 +54,13 @@ void Valve::loop() {
         return;
     }
     uint64_t millis_t = millis();
+    if(millis_t - lastPWM >= openingDuration)
+        this->close();
+
     if(millis_t - lastPWM  >= pwm){
         this->open();
         this->lastPWM = millis_t;
     }
-    if(millis_t - lastPWM >= openingDuration)
-        this->close();
-
-
 }
 
 uint64_t Valve::getOpeningDuration() {

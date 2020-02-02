@@ -12,8 +12,6 @@ struct list_element;
 
 class MainMenu : public Program{
 private:
-    unsigned int counter;
-
     list_element * items;
 
 public:
@@ -28,6 +26,8 @@ public:
     virtual void loop() override;
 
     virtual void event(Event *event) override;
+
+    virtual char *getName();
 
 public:
 

@@ -36,3 +36,7 @@ void Program::exit() {
 Program::~Program() {
 
 }
+
+char *Program::getName() {
+    return NULL;
+}

@@ -67,12 +67,20 @@ generate_arduino_library(
         HDRS modules/Valve/Valve.h
         BOARD ${${PROJECT_NAME}_BOARD}
 )
+
+generate_arduino_library(
+        Settings
+        SRCS modules/Settings/Settings.cpp
+        HDRS modules/Settings/Settings.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+)
+
 generate_arduino_library(
         ModManager
         SRCS modules/ModManager/ModManager.cpp
         HDRS modules/ModManager/ModManager.h
         BOARD ${${PROJECT_NAME}_BOARD}
-        LIBS voltage temperature Keyboard EventBus Valve
+        LIBS voltage temperature Keyboard EventBus Valve Settings
 )
 
 generate_arduino_library(

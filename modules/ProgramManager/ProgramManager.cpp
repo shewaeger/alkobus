@@ -52,7 +52,7 @@ void ProgramManager::setup() {
     ModManager *manager = ModManager::getManager();
     LiquidCrystal_I2C *lcd = manager->getLCD();
     lcd->clear();
-    Program *p = new VoltageProgram();
+    Program *p = new MainMenu();
     p->setup();
     push_list_element(&this->begin, &p, sizeof(Program *));
 }
