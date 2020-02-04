@@ -29,12 +29,16 @@ ModManager::ModManager() {
 
 void ModManager::setup() {
     this->temperature->setup();
+    Serial.println("Temperature started");
     this->voltageControl->setup();
+    Serial.println("VoltageControl started");
     this->keyboard->setup();
+    Serial.println("Keyboard started");
     this->lcd->init();
     this->lcd->backlight();
     this->lcd->clear();
     this->lcd->setCursor(0,0);
+    Serial.println("LCD started");
 }
 
 void ModManager::loop() {

@@ -52,14 +52,18 @@ void ProgramManager::setup() {
     ModManager *manager = ModManager::getManager();
     LiquidCrystal_I2C *lcd = manager->getLCD();
     lcd->clear();
+    Serial.println("Starting Main menu...");
     Program *p = new MainMenu();
     p->setup();
+    Serial.println("Main menu started");
     push_list_element(&this->begin, &p, sizeof(Program *));
 }
 
 void ProgramManager::onProgramRun(Event *event) {
     Program *nextProgram = *(Program **) event->data;
+    Serial.println("Getting new program");
     nextProgram->setup();
+    Serial.println("Setup new program");
     push_list_element(&this->begin, &nextProgram, sizeof(Program *));
 }
 

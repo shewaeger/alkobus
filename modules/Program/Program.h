@@ -16,7 +16,7 @@ public:
     virtual void setup();
     virtual void loop();
     virtual void event(Event *);
-    virtual char * getName();
+    virtual char * getName() = 0;
     void exit();
 };
 

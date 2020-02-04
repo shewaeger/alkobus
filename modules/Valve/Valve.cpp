@@ -16,6 +16,7 @@ void Valve::open() {
 }
 
 Valve::Valve(int pin, bool mode) {
+    this->pwmStatus = false;
     this->pin = pin;
     this->mode = mode;
     pinMode(this->pin, OUTPUT);

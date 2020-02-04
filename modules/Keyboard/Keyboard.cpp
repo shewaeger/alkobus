@@ -5,6 +5,8 @@
 #include <EventBus.h>
 #include "Keyboard.h"
 
+
+
 void Keyboard::setup() {
     pinMode(this->buttonUpPin, INPUT);
     pinMode(this->buttonLeftPin, INPUT);
@@ -23,19 +25,20 @@ void Keyboard::loop() {
     if (button == NO_BUTTONS) {
         this->lastKey = NO_BUTTONS;
         this->pushTime = 0;
+        shortKeyEvent = 1;
     }
     else if (lastKey == button) { // Если эта кнопка уже была нажата
         this->pushTime++;
-
         if (this->pushTime > LONG_PUSH_TIME + LONG_PUSH_EVENT_TIME) {
             this->pushTime = LONG_PUSH_TIME; // защита от переполнения переменной
             this->generateEvent(LONG_PUSH_KEY_EVENT);
+        } else if(this->pushTime > SHORT_PUSH_TIME && shortKeyEvent){
+            this->generateEvent(SHORT_PUSH_KEY_EVENT);
+            shortKeyEvent = 0;
         }
-
     } else {
         lastKey = button;
         this->pushTime = 0;
-        this->generateEvent(SHORT_PUSH_KEY_EVENT);
     }
 
 }

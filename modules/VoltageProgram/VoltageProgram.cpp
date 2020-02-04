@@ -19,7 +19,7 @@ void VoltageProgram::setup() {
     this->voltageCounter = 0;
     this->currentLine = 0;
     LiquidCrystal_I2C *lcd = ModManager::getManager()->getLCD();
-
+    lcd->clear();
     lcd->setCursor(1, 0);
     lcd->print("V:");
     lcd->setCursor(1, 1);
@@ -61,12 +61,12 @@ void VoltageProgram::event(Event *event) {
     }
 
     if(currentLine && code == BUTTON_OK) {
-//        this->exit();
-        if(valveSwitch)
-            ModManager::getManager()->getValve()->open();
-        else
-            ModManager::getManager()->getValve()->close();
-        valveSwitch = !valveSwitch;
+        this->exit();
+//        if(valveSwitch)
+//            ModManager::getManager()->getValve()->open();
+//        else
+//            ModManager::getManager()->getValve()->close();
+//        valveSwitch = !valveSwitch;
     }
 
     if(code == BUTTON_RIGHT || code == BUTTON_LEFT){
@@ -75,4 +75,12 @@ void VoltageProgram::event(Event *event) {
         this->voltage = vc->getCurrentVoltage();
     }
 
+}
+
+char *VoltageProgram::getName() {
+    return this->name;
+}
+
+VoltageProgram::VoltageProgram(char *name) {
+    this->name = name;
 }
