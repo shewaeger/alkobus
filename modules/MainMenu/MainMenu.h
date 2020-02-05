@@ -13,7 +13,8 @@ struct list_element;
 
 class MainMenu : public Program{
 private:
-    Program * list[4];
+//    Program * list[4];
+    list_element * items = NULL;
     int selector;
     char selectorPos;
     int lastSelector;

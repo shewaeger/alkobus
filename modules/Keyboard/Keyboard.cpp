@@ -26,19 +26,24 @@ void Keyboard::loop() {
         this->lastKey = NO_BUTTONS;
         this->pushTime = 0;
         shortKeyEvent = 1;
+        longKeyEvent = 0;
     }
     else if (lastKey == button) { // Если эта кнопка уже была нажата
-        this->pushTime++;
-        if (this->pushTime > LONG_PUSH_TIME + LONG_PUSH_EVENT_TIME) {
-            this->pushTime = LONG_PUSH_TIME; // защита от переполнения переменной
+        if(millis() - this->pushTime > LONG_PUSH_TIME && !shortKeyEvent && !longKeyEvent){
             this->generateEvent(LONG_PUSH_KEY_EVENT);
-        } else if(this->pushTime > SHORT_PUSH_TIME && shortKeyEvent){
+            this->pushTime = millis();
+            this->longKeyEvent = 1;
+        }
+        if (millis() - this->pushTime > LONG_PUSH_EVENT_TIME && longKeyEvent) {
+            this->pushTime = millis();
+            this->generateEvent(LONG_PUSH_KEY_EVENT);
+        } else if(millis() - this->pushTime > SHORT_PUSH_TIME && shortKeyEvent){
             this->generateEvent(SHORT_PUSH_KEY_EVENT);
             shortKeyEvent = 0;
         }
     } else {
         lastKey = button;
-        this->pushTime = 0;
+        this->pushTime = millis();
     }
 
 }

@@ -7,9 +7,9 @@
 
 #include <Arduino.h>
 
-#define LONG_PUSH_TIME 1000
-#define LONG_PUSH_EVENT_TIME 30
-#define SHORT_PUSH_TIME 100
+#define LONG_PUSH_TIME 500
+#define LONG_PUSH_EVENT_TIME 100
+#define SHORT_PUSH_TIME 50
 #define NO_BUTTONS 0
 #define BUTTON_OK 1
 #define BUTTON_LEFT 2
@@ -27,6 +27,7 @@ private:
     uint8_t buttonRightPin;
     uint8_t buttonOkPin;
     uint8_t shortKeyEvent = 0;
+    uint8_t longKeyEvent = 0;
     uint8_t lastKey = 0;
 
     uint32_t pushTime = 0;

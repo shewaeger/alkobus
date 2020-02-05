@@ -6,7 +6,7 @@
 #include <Keyboard.h>
 #include "VoltageProgram.h"
 #include "ModManager.h"
-#include "LiquidCrystal_I2C.h"
+#include <LiquidCrystal_I2C.h>
 #include "voltage.h"
 #include <Valve.h>
 
@@ -41,9 +41,10 @@ void VoltageProgram::loop() {
 
     lcd->setCursor(6, 0);
     lcd->print(voltageOut);
-
+    lcd->print("0.5");
     if(!(voltageCounter % 64)) {
         lcd->setCursor(9, 1);
+        lcd->print("0.00");
         lcd->print(voltage->getInputVoltage());
     }
     voltageCounter++;
