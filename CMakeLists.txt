@@ -92,6 +92,14 @@ generate_arduino_library(
 )
 
 generate_arduino_library(
+        AlkobusMenu
+        SRCS modules/AlkobusMenu/AlkobusMenu.cpp
+        HDRS modules/AlkobusMenu/AlkobusMenu.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS Program
+)
+
+generate_arduino_library(
         VoltageProgram
         SRCS modules/VoltageProgram/VoltageProgram.cpp
         HDRS modules/VoltageProgram/VoltageProgram.h
@@ -104,8 +112,9 @@ generate_arduino_library(
         SRCS modules/MainMenu/MainMenu.cpp
         HDRS modules/MainMenu/MainMenu.h
         BOARD ${${PROJECT_NAME}_BOARD}
-        LIBS Program VoltageProgram
+        LIBS Program VoltageProgram  AlkobusMenu
 )
+
 
 generate_arduino_library(
         ProgramManager

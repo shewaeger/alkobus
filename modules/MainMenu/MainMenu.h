@@ -9,25 +9,19 @@
 #include <Program.h>
 #include <LiquidCrystal_I2C.h>
 
+
 struct list_element;
+class AlkobusMenu;
 
 class MainMenu : public Program{
 private:
-//    Program * list[4];
-    list_element * items = NULL;
-    int selector;
-    char selectorPos;
-    int lastSelector;
-    bool redrawScreen;
+
+    AlkobusMenu *menu;
     bool programSelected;
-    int programsCount;
-    bool bufferSwitch;
-    void printProgram(LiquidCrystal_I2C *lcd, int position, Program * p);
 public:
     MainMenu();
 
     ~MainMenu() override;
-
     virtual void backgroundLoop() override;
 
     virtual void setup() override;

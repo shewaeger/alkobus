@@ -80,8 +80,8 @@ void ProgramManager::onProgramExit(Event *event) {
     exitEvent.data = program;
 
     list_element *el;
-    int i = 0;
-    for (el = this->begin; el != NULL; el = el->next, i++) {
+    int i;
+    for (el = this->begin, i = 0; el != NULL; el = el->next, i++) {
         if (*(Program **) el->data == program)
             break;
     }
