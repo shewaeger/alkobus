@@ -90,7 +90,13 @@ generate_arduino_library(
         BOARD ${${PROJECT_NAME}_BOARD}
         LIBS ModManager EventBus
 )
-
+generate_arduino_library(
+        EmptyProgram
+        SRCS modules/EmptyProgram/EmptyProgram.cpp
+        HDRS modules/EmptyProgram/EmptyProgram.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS Program
+)
 generate_arduino_library(
         AlkobusMenu
         SRCS modules/AlkobusMenu/AlkobusMenu.cpp
@@ -108,11 +114,19 @@ generate_arduino_library(
 )
 
 generate_arduino_library(
+        SettingsProgram
+        SRCS modules/SettingsProgram/SettingsProgram.cpp
+        HDRS modules/SettingsProgram/SettingsProgram.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS Program EmptyProgram AlkobusMenu VoltageProgram
+)
+
+generate_arduino_library(
         MainMenu
         SRCS modules/MainMenu/MainMenu.cpp
         HDRS modules/MainMenu/MainMenu.h
         BOARD ${${PROJECT_NAME}_BOARD}
-        LIBS Program VoltageProgram  AlkobusMenu
+        LIBS Program VoltageProgram AlkobusMenu SettingsProgram
 )
 
 

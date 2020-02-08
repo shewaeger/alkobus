@@ -1,58 +1,40 @@
 //
-// Created by shewa on 21.10.19.
+// Created by shewa on 07.02.2020.
 //
 
-#include "MainMenu.h"
-#include <AlkobusMenu.h>
-#include <Arduino.h>
+#include "SettingsProgram.h"
 #include <ModManager.h>
 #include <LiquidCrystal_I2C.h>
+#include <AlkobusMenu.h>
+#include <EmptyProgram.h>
+#include <EventBus.h>
 #include <Keyboard.h>
-#include <VoltageProgram.h>
-#include <list_utils.h>
-#include <SettingsProgram.h>
 
-MainMenu::MainMenu() : Program() {
-
-}
-
-MainMenu::~MainMenu() {
-
-}
-
-void MainMenu::backgroundLoop() {
-    Program::backgroundLoop();
-}
-
-void MainMenu::setup() {
-    VoltageProgram *voltageProgram1 = new VoltageProgram("VoltageP111");
-    VoltageProgram *voltageProgram2 = new VoltageProgram("Select main program123456789");
-    VoltageProgram *voltageProgram3 = new VoltageProgram("VoltageP33");
-    Program *p = new SettingsProgram();
+void SettingsProgram::setup() {
     LiquidCrystal_I2C *lcd = ModManager::getManager()->getLCD();
+    this->menu = new AlkobusMenu(lcd);
 
-    menu = new AlkobusMenu(lcd);
-    menu->addProgram(voltageProgram1);
-    menu->addProgram(voltageProgram2);
-    menu->addProgram(voltageProgram3);
-    menu->addProgram(p);
+    exitProgram = new EmptyProgram("Save and exit");
+    menu->addProgram(exitProgram);
 }
 
-void MainMenu::loop() {
+void SettingsProgram::loop() {
     if(programSelected){
         programSelected = false;
         Program * p = menu->getCurrentProgram();
+        if(p == exitProgram){
+            delete menu;
+            delete exitProgram;
+            exit();
+            return;
+        }
         ModManager::getManager()->getEventBus()->generateEvent(PROGRAM_RUN_EVENT, &p, sizeof(Program *));
         return;
     }
     menu->loop();
 }
 
-char *MainMenu::getName() {
-    return "Main menu";
-}
-
-void MainMenu::event(Event *event) {
+void SettingsProgram::event(Event *event) {
     switch (event->type) {
         case SHORT_PUSH_KEY_EVENT:
         case LONG_PUSH_KEY_EVENT:
@@ -78,4 +60,6 @@ void MainMenu::event(Event *event) {
 
 }
 
-
+char *SettingsProgram::getName() {
+    return "Settings";
+}
