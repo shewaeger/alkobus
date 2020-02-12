@@ -25,6 +25,8 @@ void ProgramManager::loop() {
     EventBus *bus = manager->getEventBus();
     Event *event;
     while ((event = bus->getLastEvent()) != NULL) {
+//        Serial.print("Event address: ");
+//        Serial.println((unsigned int)event, HEX);
         if (event->type == PROGRAM_RUN_EVENT) {
             onProgramRun(event);
         } else if (event->type == PROGRAM_EXIT_EVENT) {
@@ -64,6 +66,8 @@ void ProgramManager::onProgramRun(Event *event) {
     Serial.println("Getting new program");
     nextProgram->setup();
     Serial.println("Setup new program");
+    Serial.print("Program: ");
+    Serial.println((unsigned long int)nextProgram, HEX);
     push_list_element(&this->begin, &nextProgram, sizeof(Program *));
 }
 

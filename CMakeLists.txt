@@ -76,6 +76,13 @@ generate_arduino_library(
 )
 
 generate_arduino_library(
+        LcdOverflowString
+        SRCS modules/LcdOverflowString/LcdOverflowString.cpp
+        HDRS modules/LcdOverflowString/LcdOverflowString.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+)
+
+generate_arduino_library(
         ModManager
         SRCS modules/ModManager/ModManager.cpp
         HDRS modules/ModManager/ModManager.h
@@ -114,11 +121,50 @@ generate_arduino_library(
 )
 
 generate_arduino_library(
+        VariableSetProgram
+        SRCS modules/VariableSetProgram/VariableSetProgram.cpp
+        HDRS modules/VariableSetProgram/VariableSetProgram.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS Program LcdOverflowString
+)
+
+generate_arduino_library(
+        TimeSetProgram
+        SRCS modules/TimeSetProgram/TimeSetProgram.cpp
+        HDRS modules/TimeSetProgram/TimeSetProgram.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS Program
+)
+
+generate_arduino_library(
+        PWMScaleSetProgram
+        SRCS modules/PWMScaleSetProgram/PWMScaleSetProgram.cpp
+        HDRS modules/PWMScaleSetProgram/PWMScaleSetProgram.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS Program
+)
+
+generate_arduino_library(
+        ValveSettingsProgram
+        SRCS modules/ValveSettingsProgram/ValveSettingsProgram.cpp
+        HDRS modules/ValveSettingsProgram/ValveSettingsProgram.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS Program LcdOverflowString TimeSetProgram PWMScaleSetProgram EmptyProgram
+)
+generate_arduino_library(
+        ProcessSettingsProgram
+        SRCS modules/ProcessSettingsProgram/ProcessSettingsProgram.cpp
+        HDRS modules/ProcessSettingsProgram/ProcessSettingsProgram.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS Program AlkobusMenu PWMScaleSetProgram EmptyProgram AlkobusMenu
+)
+
+generate_arduino_library(
         SettingsProgram
         SRCS modules/SettingsProgram/SettingsProgram.cpp
         HDRS modules/SettingsProgram/SettingsProgram.h
         BOARD ${${PROJECT_NAME}_BOARD}
-        LIBS Program EmptyProgram AlkobusMenu VoltageProgram
+        LIBS Program EmptyProgram AlkobusMenu VoltageProgram ValveSettingsProgram VariableSetProgram TimeSetProgram ProcessSettingsProgram
 )
 
 generate_arduino_library(

@@ -25,6 +25,7 @@ void MainMenu::backgroundLoop() {
 }
 
 void MainMenu::setup() {
+    this->programSelected = false;
     VoltageProgram *voltageProgram1 = new VoltageProgram("VoltageP111");
     VoltageProgram *voltageProgram2 = new VoltageProgram("Select main program123456789");
     VoltageProgram *voltageProgram3 = new VoltageProgram("VoltageP33");

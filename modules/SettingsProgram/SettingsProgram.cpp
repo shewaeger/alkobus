@@ -9,11 +9,66 @@
 #include <EmptyProgram.h>
 #include <EventBus.h>
 #include <Keyboard.h>
-
+#include <Settings.h>
+#include <ProcessSettingsProgram.h>
+#include <VariableSetProgram.h>
+#include <TimeSetProgram.h>
+#include <ValveSettingsProgram.h>
 void SettingsProgram::setup() {
     LiquidCrystal_I2C *lcd = ModManager::getManager()->getLCD();
     this->menu = new AlkobusMenu(lcd);
+    Settings_struct *settingsStruct = ModManager::getManager()->getSettings()->getStruct();
+    Program *p = new VariableSetProgram<float>("Initial temperature", &(settingsStruct->initialTemperature), 10,
+                                               70, .5);
+    menu->addProgram(p);
+    p = new VariableSetProgram<float>("Working voltage", &(settingsStruct->workingVoltage), 50, 190, 1);
+    menu->addProgram(p);
+    p = new VariableSetProgram<float>("Allowed delta", &(settingsStruct->allowedDelta), 0, 5, 0.1);
+    menu->addProgram(p);
+    p = new ValveSettingsProgram(
+            "Head 1 settings",
+            &settingsStruct->head1Time,
+            &settingsStruct->head1PWMCount,
+            &settingsStruct->head1PWMScale,
+            &settingsStruct->head1OpeningDuration);
+    menu->addProgram(p);
 
+    p = new ValveSettingsProgram(
+            "Head 2 settings",
+            &settingsStruct->head2Time,
+            &settingsStruct->head2PWMCount,
+            &settingsStruct->head2PWMScale,
+            &settingsStruct->head2OpeningDuration);
+    menu->addProgram(p);
+
+    p = new ValveSettingsProgram(
+            "Head extended settings",
+            &settingsStruct->headExTime,
+            &settingsStruct->headExPWMCount,
+            &settingsStruct->headExPWMScale,
+            &settingsStruct->headExOpeningDuration);
+    menu->addProgram(p);
+
+    p = new ValveSettingsProgram(
+            "Headrest settings",
+            &settingsStruct->headrestTime,
+            &settingsStruct->headrestPWMCount,
+            &settingsStruct->headrestPWMScale,
+            &settingsStruct->headrestOpeningDuration);
+    menu->addProgram(p);
+
+    p = new ValveSettingsProgram(
+            "Headrest extended settings",
+            &settingsStruct->headrestExTime,
+            &settingsStruct->headrestExPWMCount,
+            &settingsStruct->headrestExPWMScale,
+            &settingsStruct->headrestExOpeningDuration);
+    menu->addProgram(p);
+
+    p = new ProcessSettingsProgram();
+    menu->addProgram(p);
+    p = new VariableSetProgram<float>("Alert temperature", &(settingsStruct->alertTemperature), 40, 80, .5);
+    menu->addProgram(p);
     exitProgram = new EmptyProgram("Save and exit");
     menu->addProgram(exitProgram);
 }
@@ -24,7 +79,6 @@ void SettingsProgram::loop() {
         Program * p = menu->getCurrentProgram();
         if(p == exitProgram){
             delete menu;
-            delete exitProgram;
             exit();
             return;
         }
@@ -55,6 +109,7 @@ void SettingsProgram::event(Event *event) {
             }
             break;
         case CHILD_EXIT_EVENT:
+            ModManager::getManager()->getSettings()->saveSettings();
             break;
     }
 

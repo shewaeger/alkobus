@@ -9,38 +9,38 @@
 #include <inttypes.h>
 
 struct Settings_struct {
-   uint8_t thermometer1Addr[8];
-   uint8_t thermometer2Addr[8];
-   uint8_t thermometer3Addr[8];
-   float initialTemperature;
-   float workingVoltage;
-   float allowedDelta;
-   uint64_t head1Time;
-   uint64_t head1PWMCount;
-   bool head1PWMScale;
-   uint64_t head1OpeningDuration;
-    uint64_t head2Time;
-    uint64_t head2PWMCount;
+    uint8_t thermometer1Addr[8];
+    uint8_t thermometer2Addr[8];
+    uint8_t thermometer3Addr[8];
+    float initialTemperature;
+    float workingVoltage;
+    float allowedDelta;
+    unsigned long head1Time;
+    unsigned long head1PWMCount;
+    bool head1PWMScale;
+    unsigned long head1OpeningDuration;
+    unsigned long head2Time;
+    unsigned long head2PWMCount;
     bool head2PWMScale;
-    uint64_t head2OpeningDuration;
-    uint64_t headExTime;
-    uint64_t headExPWMCount;
+    unsigned long head2OpeningDuration;
+    unsigned long headExTime;
+    unsigned long headExPWMCount;
     bool headExPWMScale;
-    uint64_t headExOpeningDuration;
-    uint64_t headrestTime;
-    uint64_t headrestPWMCount;
+    unsigned long headExOpeningDuration;
+    unsigned long headrestTime;
+    unsigned long headrestPWMCount;
     bool headrestPWMScale;
-    uint64_t headrestOpeningDuration;
-    uint64_t headrestExTime;
-    uint64_t headrestExPWMCount;
+    unsigned long headrestOpeningDuration;
+    unsigned long headrestExTime;
+    unsigned long headrestExPWMCount;
     bool headrestExPWMScale;
-    uint64_t headrestExOpeningDuration;
+    unsigned long headrestExOpeningDuration;
     float processTemperatureStart;
     float processTemperatureEnd;
     float alertTemperature;
-    uint64_t processPWMCount;
+    unsigned long processPWMCount;
     bool processPWMScale;
-    uint64_t processOpeningDuration100Percent;
+    unsigned long processOpeningDuration100Percent;
     uint8_t processOpeningDurationEndPercent;
 };
 
@@ -51,7 +51,7 @@ public:
 
     void saveSettings();
 
-    Settings_struct * getStruct();
+    Settings_struct *getStruct();
 
 };
 

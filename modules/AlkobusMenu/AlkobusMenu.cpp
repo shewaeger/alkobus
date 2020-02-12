@@ -17,7 +17,10 @@ AlkobusMenu::AlkobusMenu(LiquidCrystal_I2C *lcd):
         items(NULL),
         selectorPos(0),
         countProgram(0),
-        currentOffset(0){}
+        currentOffset(0),
+        lastOffsetTime(millis()){
+    lcd->clear();
+}
 
 void AlkobusMenu::addProgram(Program *program) {
     push_list_element(&this->items, &program, sizeof(Program *));

@@ -14,7 +14,7 @@ Settings::Settings() {
 // Created by shewa on 02.02.20.
 void Settings::saveSettings() {
     for(int i = 0; i < sizeof(settings); i++){
-        EEPROM.write(i, *(((uint8_t *)&settings) + i));
+        EEPROM.update(i, *(((uint8_t *)&settings) + i));
     }
 }
 

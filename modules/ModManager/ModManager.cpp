@@ -10,8 +10,18 @@
 #include <LiquidCrystal_I2C.h>
 #include "ModManager.h"
 #include <Valve.h>
+#include <Settings.h>
 ModManager *ModManager::manager = NULL;
-
+byte customChar[] = {
+        B00000,
+        B01111,
+        B00011,
+        B00101,
+        B01001,
+        B10000,
+        B00000,
+        B00000
+};
 ModManager *ModManager::getManager() {
     if (manager == NULL)
         manager = new ModManager();
@@ -24,7 +34,10 @@ ModManager::ModManager() {
     this->voltageControl = new VoltageControl();
     this->keyboard = new Keyboard(31, 29, 27, 25, 23, this->eventBus);
     this->lcd = new LiquidCrystal_I2C(0x3f, 16, 2);
+
+//    this->lcd = new LiquidCrystal_I2C(0x27, 16, 2);
     this->valve = new Valve(51);
+    this->settings = new Settings();
 }
 
 void ModManager::setup() {
@@ -37,6 +50,7 @@ void ModManager::setup() {
     this->lcd->init();
     this->lcd->backlight();
     this->lcd->clear();
+    this->lcd->createChar(0, customChar);
     this->lcd->setCursor(0,0);
     Serial.println("LCD started");
 }
@@ -66,4 +80,8 @@ VoltageControl *ModManager::getVoltageControl() {
 
 Valve *ModManager::getValve() {
     return this->valve;
+}
+
+Settings *ModManager::getSettings() {
+    return this->settings;
 }
