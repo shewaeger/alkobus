@@ -24,10 +24,9 @@ void FindThermometerProgram::loop() {
     }
 
     if (isOk) {
-        Settings_struct *settings = ModManager::getManager()->getSettings()->getStruct();
         found = ModManager::getManager()->getThermometers()->findThermometer(addr);
     }
-
+    drawScreen();
 }
 
 void FindThermometerProgram::event(Event *event) {
