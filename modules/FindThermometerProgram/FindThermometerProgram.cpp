@@ -35,7 +35,7 @@ void FindThermometerProgram::event(Event *event) {
         if(!isOk)
             isOk = true;
         else
-            isExit = true
+            isExit = true;
     }
 }
 
