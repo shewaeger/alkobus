@@ -16,7 +16,7 @@ private:
     int selector;
     bool isExit;
 public:
-
+    virtual int getSelector(int selector, int code);
     virtual void setup();
 
     virtual void loop();

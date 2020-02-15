@@ -30,8 +30,9 @@ void DeltaCorrectionProgram::loop() {
         lcd->print("thermometers    ");
         return;
     }
+    Settings_struct *settings = ModManager::getManager()->getSettings()->getStruct();
     float delta = fabs(thermometer1->temperature - thermometer2->temperature);
-    if(delta <= 0.2 || isExit){
+    if(delta <= settings->allowedDelta || isExit){
         exit(0);
     }
     char t1Str[6];

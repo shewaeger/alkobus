@@ -38,7 +38,7 @@ void ProcessSettingsProgram::setup() {
     }
     this->openingDurationProgram = new TimeSetProgram("Opening duration on 100%", &(settingsStruct->processOpeningDuration100Percent), openingDurationMax, FORMAT_MILLIS);
     menu->addProgram(openingDurationProgram);
-    p = new VariableSetProgram<unsigned char>("Percents on end", &(settingsStruct->processOpeningDurationEndPercent), 0, 100, 1);
+    p = new VariableSetProgram<unsigned char>("Percents on end", &(settingsStruct->processEndPercent), 0, 100, 1);
     menu->addProgram(p);
     this->exitProgram = new EmptyProgram("Exit");
     menu->addProgram(exitProgram);

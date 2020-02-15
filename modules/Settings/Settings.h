@@ -41,7 +41,7 @@ struct Settings_struct {
     unsigned long processPWMCount;
     bool processPWMScale;
     unsigned long processOpeningDuration100Percent;
-    uint8_t processOpeningDurationEndPercent;
+    uint8_t processEndPercent;
 };
 
 class Settings {

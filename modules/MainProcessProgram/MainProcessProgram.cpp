@@ -73,72 +73,75 @@ void MainProcessProgram::setup() {
             &(settings->head2OpeningDuration));
     push_list_element(&this->items, &p, sizeof(Program *));
     //Selector = 9
-    p = new SoundProgram(true);
-    push_list_element(&this->items, &p, sizeof(Program *));
-
-    p = new ExtendedTimeMessageProgram();
+    p = new SoundProgram(false);
     push_list_element(&this->items, &p, sizeof(Program *));
     //Selector = 10
+    p = new ExtendedTimeMessageProgram();
+    push_list_element(&this->items, &p, sizeof(Program *));
+    //Selector = 11
     p = new PrimarySelectionSettingsProgram(
             &(settings->headExTime),
             &(settings->headExPWMCount),
             &(settings->headExPWMScale),
             &(settings->headExOpeningDuration));
     push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 11
+    //Selector = 12
     p = new PrimarySelectionProgram(
             &(settings->headExTime),
             &(settings->headExPWMCount),
             &(settings->headExPWMScale),
             &(settings->headExOpeningDuration));
     push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 12
+    //Selector = 13
     p = new SoundProgram(true);
     push_list_element(&this->items, &p, sizeof(Program *));
 
-    //Selector = 10
+    //Selector = 14
     p = new PrimarySelectionSettingsProgram(
             &(settings->headrestTime),
             &(settings->headrestPWMCount),
             &(settings->headrestPWMScale),
             &(settings->headrestOpeningDuration));
     push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 11
+    //Selector = 15
     p = new PrimarySelectionProgram(
             &(settings->headrestTime),
             &(settings->headrestPWMCount),
             &(settings->headrestPWMScale),
             &(settings->headrestOpeningDuration));
     push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 12
-    p = new SoundProgram(true);
+    //Selector = 16
+    p = new SoundProgram(false);
     push_list_element(&this->items, &p, sizeof(Program *));
-
+    //Selector = 17
     p = new ExtendedTimeMessageProgram();
     push_list_element(&this->items, &p, sizeof(Program *));
-
+    //Selector = 18
     p = new PrimarySelectionSettingsProgram(
             &(settings->headrestExTime),
             &(settings->headrestExPWMCount),
             &(settings->headrestExPWMScale),
             &(settings->headrestExOpeningDuration));
     push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 11
+    //Selector = 19
     p = new PrimarySelectionProgram(
             &(settings->headrestExTime),
             &(settings->headrestExPWMCount),
             &(settings->headrestExPWMScale),
             &(settings->headrestExOpeningDuration));
     push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 12
+    //Selector = 20
     p = new SoundProgram(true);
     push_list_element(&this->items, &p, sizeof(Program *));
-
+    //Selector = 21
     p = new ProcessSettingsProgram();
     push_list_element(&this->items, &p, sizeof(Program *));
-
+    //Selector = 22
     p = new ProcessProgram();
-
+    push_list_element(&this->items, &p, sizeof(Program *));
+    //Selector = 23
+    p = new SoundProgram(false);
+    push_list_element(&this->items, &p, sizeof(Program *));
 }
 
 void MainProcessProgram::loop() {
@@ -152,7 +155,6 @@ void MainProcessProgram::loop() {
         exit(0);
         return;
     }
-    Serial.println("NextProgram");
     Program *p = *(Program **) get_list_element(items, selector);
     ModManager::getManager()->getEventBus()->generateEvent(PROGRAM_RUN_EVENT, &p, sizeof(Program *));
 }
@@ -161,13 +163,11 @@ void MainProcessProgram::event(Event *event) {
     if (event->type == CHILD_EXIT_EVENT) {
         Program *p = (Program *)event->data;
         switch (p->getExitCode()) {
-            case 0:
-                selector++;
-                break;
             case 1: // необходимо выйти из программы
                 isExit = true;
                 break;
-            case 2:
+            default:
+                selector = getSelector(selector, p->getExitCode());
                 break; // Повторить программу
         }
         Serial.print("Exit code: ");
@@ -177,4 +177,20 @@ void MainProcessProgram::event(Event *event) {
 
 char *MainProcessProgram::getName() {
     return "Start process";
+}
+
+int MainProcessProgram::getSelector(int selector, int code) {
+    if(selector == 10 && code == 3){
+        return selector + 4;
+    }
+    if(selector == 13 && code == 2)
+        return selector - 2;
+
+    if(selector == 17 && code == 3)
+        return selector + 4;
+
+    if(selector == 20 && code == 2)
+        return selector - 2;
+
+    return selector + 1;
 }
