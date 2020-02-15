@@ -14,6 +14,10 @@
 #include <WarmingUpProgram.h>
 #include <VariableSetProgram.h>
 #include <SoundProgram.h>
+#include <DeltaCorrectionProgram.h>
+#include <ExtendedTimeMessageProgram.h>
+#include <ProcessSettingsProgram.h>
+#include <ProcessProgram.h>
 
 void MainProcessProgram::setup() {
     Settings_struct *settings = ModManager::getManager()->getSettings()->getStruct();
@@ -25,12 +29,18 @@ void MainProcessProgram::setup() {
                                       30, 90, .5);
     push_list_element(&this->items, &p, sizeof(Program *));
 
-    //Selector = 2
+    //Selector = 1
     p = new WarmingUpProgram();
     push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 3
-    p = new SoundProgram();
+
+    //Selector = 2
+    p = new SoundProgram(false);
     push_list_element(&this->items, &p, sizeof(Program *));
+
+    //Selector = 3
+    p = new DeltaCorrectionProgram();
+    push_list_element(&this->items, &p, sizeof(Program *));
+
     //Selector = 4
     p = new PrimarySelectionSettingsProgram(
             &(settings->head1Time),
@@ -46,7 +56,7 @@ void MainProcessProgram::setup() {
             &(settings->head1OpeningDuration));
     push_list_element(&this->items, &p, sizeof(Program *));
     //Selector = 6
-    p = new SoundProgram();
+    p = new SoundProgram(false);
     push_list_element(&this->items, &p, sizeof(Program *));
     //Selector = 7
     p = new PrimarySelectionSettingsProgram(
@@ -63,7 +73,10 @@ void MainProcessProgram::setup() {
             &(settings->head2OpeningDuration));
     push_list_element(&this->items, &p, sizeof(Program *));
     //Selector = 9
-    p = new SoundProgram();
+    p = new SoundProgram(true);
+    push_list_element(&this->items, &p, sizeof(Program *));
+
+    p = new ExtendedTimeMessageProgram();
     push_list_element(&this->items, &p, sizeof(Program *));
     //Selector = 10
     p = new PrimarySelectionSettingsProgram(
@@ -80,8 +93,51 @@ void MainProcessProgram::setup() {
             &(settings->headExOpeningDuration));
     push_list_element(&this->items, &p, sizeof(Program *));
     //Selector = 12
-    p = new SoundProgram();
+    p = new SoundProgram(true);
     push_list_element(&this->items, &p, sizeof(Program *));
+
+    //Selector = 10
+    p = new PrimarySelectionSettingsProgram(
+            &(settings->headrestTime),
+            &(settings->headrestPWMCount),
+            &(settings->headrestPWMScale),
+            &(settings->headrestOpeningDuration));
+    push_list_element(&this->items, &p, sizeof(Program *));
+    //Selector = 11
+    p = new PrimarySelectionProgram(
+            &(settings->headrestTime),
+            &(settings->headrestPWMCount),
+            &(settings->headrestPWMScale),
+            &(settings->headrestOpeningDuration));
+    push_list_element(&this->items, &p, sizeof(Program *));
+    //Selector = 12
+    p = new SoundProgram(true);
+    push_list_element(&this->items, &p, sizeof(Program *));
+
+    p = new ExtendedTimeMessageProgram();
+    push_list_element(&this->items, &p, sizeof(Program *));
+
+    p = new PrimarySelectionSettingsProgram(
+            &(settings->headrestExTime),
+            &(settings->headrestExPWMCount),
+            &(settings->headrestExPWMScale),
+            &(settings->headrestExOpeningDuration));
+    push_list_element(&this->items, &p, sizeof(Program *));
+    //Selector = 11
+    p = new PrimarySelectionProgram(
+            &(settings->headrestExTime),
+            &(settings->headrestExPWMCount),
+            &(settings->headrestExPWMScale),
+            &(settings->headrestExOpeningDuration));
+    push_list_element(&this->items, &p, sizeof(Program *));
+    //Selector = 12
+    p = new SoundProgram(true);
+    push_list_element(&this->items, &p, sizeof(Program *));
+
+    p = new ProcessSettingsProgram();
+    push_list_element(&this->items, &p, sizeof(Program *));
+
+    p = new ProcessProgram();
 
 }
 

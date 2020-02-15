@@ -24,7 +24,7 @@ void WarmingUpProgram::loop() {
     Settings_struct *settings = ModManager::getManager()->getSettings()->getStruct();
     if(thermometer == NULL){
         if(isExit){
-            exit(0);
+            exit(1);
             return;
         }
         lcd->setCursor(0, 0);

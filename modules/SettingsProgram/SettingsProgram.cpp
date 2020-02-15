@@ -29,6 +29,8 @@ void SettingsProgram::setup() {
     menu->addProgram(p);
     p = new VariableSetProgram<float>("Allowed delta", &(settingsStruct->allowedDelta), 0, 5, 0.1);
     menu->addProgram(p);
+    p = new VariableSetProgram<float>("Alert temperature", &(settingsStruct->errorTemperature), 40, 80, .5);
+    menu->addProgram(p);
     p = new ValveSettingsProgram(
             "Head 1 settings",
             &settingsStruct->head1Time,
@@ -71,8 +73,7 @@ void SettingsProgram::setup() {
 
     p = new ProcessSettingsProgram();
     menu->addProgram(p);
-    p = new VariableSetProgram<float>("Alert temperature", &(settingsStruct->alertTemperature), 40, 80, .5);
-    menu->addProgram(p);
+
 }
 
 void SettingsProgram::loop() {

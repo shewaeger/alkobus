@@ -37,7 +37,7 @@ struct Settings_struct {
     unsigned long headrestExOpeningDuration;
     float processTemperatureStart;
     float processTemperatureEnd;
-    float alertTemperature;
+    float errorTemperature;
     unsigned long processPWMCount;
     bool processPWMScale;
     unsigned long processOpeningDuration100Percent;

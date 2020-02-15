@@ -17,8 +17,11 @@ class SoundProgram : public Program{
     bool programSelected;
     unsigned long soundTime;
     bool switchSound;
+    bool showRepeat;
 
 public:
+    SoundProgram(bool showRepeat);
+
     virtual void setup();
 
     virtual void loop();

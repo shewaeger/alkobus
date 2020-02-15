@@ -207,11 +207,35 @@ generate_arduino_library(
 )
 
 generate_arduino_library(
+        DeltaCorrectionProgram
+        SRCS modules/DeltaCorrectionProgram/DeltaCorrectionProgram.cpp
+        HDRS modules/DeltaCorrectionProgram/DeltaCorrectionProgram.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS Program AlkobusMenu EmptyProgram
+)
+
+generate_arduino_library(
+        ExtendedTimeMessageProgram
+        SRCS modules/ExtendedTimeMessageProgram/ExtendedTimeMessageProgram.cpp
+        HDRS modules/ExtendedTimeMessageProgram/ExtendedTimeMessageProgram.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS Program AlkobusMenu EmptyProgram
+)
+
+generate_arduino_library(
+        ProcessProgram
+        SRCS modules/ProcessProgram/ProcessProgram.cpp
+        HDRS modules/ProcessProgram/ProcessProgram.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS Program
+)
+
+generate_arduino_library(
         MainProcessProgram
         SRCS modules/MainProcessProgram/MainProcessProgram.cpp
         HDRS modules/MainProcessProgram/MainProcessProgram.h
         BOARD ${${PROJECT_NAME}_BOARD}
-        LIBS Program PrimarySelectionProgram PrimarySelectionSettingsProgram WarmingUpProgram SoundProgram
+        LIBS Program PrimarySelectionProgram PrimarySelectionSettingsProgram WarmingUpProgram SoundProgram DeltaCorrectionProgram ExtendedTimeMessageProgram ProcessProgram
 )
 
 generate_arduino_library(

@@ -10,14 +10,20 @@
 #include "SoundProgram.h"
 #include <Speaker.h>
 void SoundProgram::setup() {
-    this->exitProgram = new EmptyProgram("Exit");
-    this->continueProgram = new EmptyProgram("Continue");
-    this->repeatProgram = new EmptyProgram("Repeat");
     LiquidCrystal_I2C *lcd = ModManager::getManager()->getLCD();
     this->menu = new AlkobusMenu(lcd);
+
+    this->repeatProgram = new EmptyProgram("Repeat");
     menu->addProgram(continueProgram);
-    menu->addProgram(repeatProgram);
+
+    if(showRepeat) {
+        this->continueProgram = new EmptyProgram("Continue");
+        menu->addProgram(repeatProgram);
+    }
+
+    this->exitProgram = new EmptyProgram("Exit");
     menu->addProgram(exitProgram);
+
     programSelected = false;
     switchSound = true;
     this->soundTime = millis();
@@ -34,6 +40,7 @@ void SoundProgram::loop() {
         if(p == exitProgram)
             exit(1);
         ModManager::getManager()->getSpeaker()->disable();
+        delete menu;
         return;
     }
     if(millis() - soundTime >= 500){
@@ -73,3 +80,5 @@ void SoundProgram::event(Event *event) {
 char *SoundProgram::getName() {
     return "";
 }
+
+SoundProgram::SoundProgram(bool showRepeat) : showRepeat(showRepeat) {}

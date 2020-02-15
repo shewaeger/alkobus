@@ -9,12 +9,16 @@
 #include <LiquidCrystal_I2C.h>
 #include <EventBus.h>
 #include <Keyboard.h>
+#include <voltage.h>
+#include <Settings.h>
 
 void PrimarySelectionProgram::setup() {
     this->processStarting = millis();
     Valve *valve = ModManager::getManager()->getValve();
     valve->setPWM(*pwmCount, *pwmScale);
     valve->setOpeningDuration(*openingDuration);
+    Settings_struct *settings = ModManager::getManager()->getSettings()->getStruct();
+    ModManager::getManager()->getVoltageControl()->setVoltage(settings->workingVoltage);
     isExit = false;
 }
 
