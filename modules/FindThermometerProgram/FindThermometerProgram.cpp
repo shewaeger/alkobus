@@ -13,7 +13,6 @@
 
 void FindThermometerProgram::setup() {
     this->isOk = false;
-    this->isOk2 = false;
     this->isExit = false;
     this->found = false;
 }
