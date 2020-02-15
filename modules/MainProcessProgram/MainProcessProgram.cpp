@@ -18,7 +18,10 @@
 #include <ExtendedTimeMessageProgram.h>
 #include <ProcessSettingsProgram.h>
 #include <ProcessProgram.h>
-
+#include <Speaker.h>
+#include <Valve.h>
+#include <voltage.h>
+#include <TenSwitch.h>
 void MainProcessProgram::setup() {
     Settings_struct *settings = ModManager::getManager()->getSettings()->getStruct();
     selector = 0;
@@ -147,6 +150,10 @@ void MainProcessProgram::setup() {
 void MainProcessProgram::loop() {
 
     if (selector >= count_list(items) || isExit) {
+        ModManager::getManager()->getSpeaker()->disable();
+        ModManager::getManager()->getValve()->disablePWM();
+        ModManager::getManager()->getVoltageControl()->setVoltage(0);
+        ModManager::getManager()->getTenSwitch()->disable();
         while (this->items) {
             Program *p = *(Program **) get_list_element(items, 0);
             delete p;
@@ -193,4 +200,15 @@ int MainProcessProgram::getSelector(int selector, int code) {
         return selector - 2;
 
     return selector + 1;
+}
+
+void MainProcessProgram::backgroundLoop() {
+    Settings_struct *settings = ModManager::getManager()->getSettings()->getStruct();
+    Thermometer *thermometer = ModManager::getManager()->getThermometers()->getThermometer(settings->thermometer3Addr);
+    if(thermometer == NULL)
+        return;
+    if(thermometer->temperature > settings->errorTemperature){
+        Program *p = *(Program **)get_list_element(items, selector);
+        p->exit(1);
+    }
 }

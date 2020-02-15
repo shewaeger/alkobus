@@ -17,6 +17,9 @@ private:
     bool isExit;
 public:
     virtual int getSelector(int selector, int code);
+
+    virtual void backgroundLoop();
+
     virtual void setup();
 
     virtual void loop();
