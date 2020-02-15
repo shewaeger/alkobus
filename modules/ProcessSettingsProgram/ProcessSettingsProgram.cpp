@@ -51,7 +51,7 @@ void ProcessSettingsProgram::loop() {
         Program * p = menu->getCurrentProgram();
         if(p == exitProgram){
             delete menu;
-            exit();
+            exit(0);
             return;
         }
         ModManager::getManager()->getEventBus()->generateEvent(PROGRAM_RUN_EVENT, &p, sizeof(Program *));

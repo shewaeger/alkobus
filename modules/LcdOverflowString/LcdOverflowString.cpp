@@ -27,7 +27,6 @@ LcdOverflowString::LcdOverflowString(char *string, LiquidCrystal_I2C *lcd, uint3
     char end = string[16];
     this->string[16] = 0;
     lcd->print(this->string);
-    Serial.println(this->string);
     this->string[16] = end;
 }
 

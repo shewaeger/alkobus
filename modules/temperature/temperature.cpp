@@ -85,3 +85,14 @@ Temperature::Temperature(uint8_t dataPin, EventBus *eventBus) :
 list_element *Temperature::getThermometerList() {
     return this->thermometer_list;
 }
+
+Thermometer *Temperature::getThermometer(uint8_t *address) {
+    list_element *beg = thermometer_list;
+    for(list_element *beg = thermometer_list; beg != NULL; beg = beg->next){
+        Thermometer *current = (Thermometer*)(beg->data);
+       if(!memcmp(current->addr , address, 8)){
+           return current;
+       }
+    }
+    return NULL;
+}

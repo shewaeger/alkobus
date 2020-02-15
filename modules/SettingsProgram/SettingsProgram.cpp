@@ -17,6 +17,10 @@
 void SettingsProgram::setup() {
     LiquidCrystal_I2C *lcd = ModManager::getManager()->getLCD();
     this->menu = new AlkobusMenu(lcd);
+
+    exitProgram = new EmptyProgram("Save and exit");
+    menu->addProgram(exitProgram);
+
     Settings_struct *settingsStruct = ModManager::getManager()->getSettings()->getStruct();
     Program *p = new VariableSetProgram<float>("Initial temperature", &(settingsStruct->initialTemperature), 10,
                                                70, .5);
@@ -69,8 +73,6 @@ void SettingsProgram::setup() {
     menu->addProgram(p);
     p = new VariableSetProgram<float>("Alert temperature", &(settingsStruct->alertTemperature), 40, 80, .5);
     menu->addProgram(p);
-    exitProgram = new EmptyProgram("Save and exit");
-    menu->addProgram(exitProgram);
 }
 
 void SettingsProgram::loop() {
@@ -79,7 +81,7 @@ void SettingsProgram::loop() {
         Program * p = menu->getCurrentProgram();
         if(p == exitProgram){
             delete menu;
-            exit();
+            exit(0);
             return;
         }
         ModManager::getManager()->getEventBus()->generateEvent(PROGRAM_RUN_EVENT, &p, sizeof(Program *));

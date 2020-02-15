@@ -52,7 +52,7 @@ void ValveSettingsProgram::loop() {
         Program * p = alkobusMenu->getCurrentProgram();
         if(p == exitProgram){
             delete alkobusMenu;
-            exit();
+            exit(0);
             return;
         }
         ModManager::getManager()->getEventBus()->generateEvent(PROGRAM_RUN_EVENT, &p, sizeof(Program *));

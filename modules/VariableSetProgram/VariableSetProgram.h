@@ -65,7 +65,7 @@ public:
     virtual void loop(){
         if(isExit){
             delete lcdOverflowString;
-            exit();
+            exit(0);
         }
         LiquidCrystal_I2C *lcd = ModManager::getManager()->getLCD();
         lcdOverflowString->loop();

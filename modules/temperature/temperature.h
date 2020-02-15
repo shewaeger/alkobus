@@ -26,6 +26,7 @@ private:
     EventBus *eventBus;
 public:
     Temperature(uint8_t dataPin, EventBus *eventBus);
+    Thermometer * getThermometer(uint8_t *address);
     list_element *getThermometerList();
     void setup();
     void loop();

@@ -12,6 +12,8 @@ class VoltageControl;
 class LiquidCrystal_I2C;
 class Valve;
 class Settings;
+class TenSwitch;
+class Speaker;
 class ModManager {
 private:
     static ModManager *manager;
@@ -23,6 +25,8 @@ private:
     LiquidCrystal_I2C *lcd;
     Valve *valve;
     Settings *settings;
+    TenSwitch *tenSwitch;
+    Speaker * speaker;
     ModManager();
 public:
 
@@ -33,6 +37,8 @@ public:
     VoltageControl * getVoltageControl();
     Valve *getValve();
     Settings *getSettings();
+    TenSwitch *getTenSwitch();
+    Speaker *getSpeaker();
     void setup();
 
     void loop();

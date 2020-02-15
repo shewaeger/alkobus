@@ -11,6 +11,7 @@
 #include <VoltageProgram.h>
 #include <list_utils.h>
 #include <SettingsProgram.h>
+#include <MainProcessProgram.h>
 
 MainMenu::MainMenu() : Program() {
 
@@ -26,16 +27,12 @@ void MainMenu::backgroundLoop() {
 
 void MainMenu::setup() {
     this->programSelected = false;
-    VoltageProgram *voltageProgram1 = new VoltageProgram("VoltageP111");
-    VoltageProgram *voltageProgram2 = new VoltageProgram("Select main program123456789");
-    VoltageProgram *voltageProgram3 = new VoltageProgram("VoltageP33");
-    Program *p = new SettingsProgram();
     LiquidCrystal_I2C *lcd = ModManager::getManager()->getLCD();
 
     menu = new AlkobusMenu(lcd);
-    menu->addProgram(voltageProgram1);
-    menu->addProgram(voltageProgram2);
-    menu->addProgram(voltageProgram3);
+    Program *p = new SettingsProgram();
+    menu->addProgram(p);
+    p = new MainProcessProgram();
     menu->addProgram(p);
 }
 

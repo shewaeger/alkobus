@@ -61,6 +61,21 @@ generate_arduino_library(
         HDRS modules/voltage/voltage.h
         BOARD ${${PROJECT_NAME}_BOARD}
 )
+
+generate_arduino_library(
+        TenSwitch
+        SRCS modules/TenSwitch/TenSwitch.cpp
+        HDRS modules/TenSwitch/TenSwitch.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+)
+
+generate_arduino_library(
+        Speaker
+        SRCS modules/Speaker/Speaker.cpp
+        HDRS modules/Speaker/Speaker.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+)
+
 generate_arduino_library(
         Valve
         SRCS modules/Valve/Valve.cpp
@@ -87,7 +102,7 @@ generate_arduino_library(
         SRCS modules/ModManager/ModManager.cpp
         HDRS modules/ModManager/ModManager.h
         BOARD ${${PROJECT_NAME}_BOARD}
-        LIBS voltage temperature Keyboard EventBus Valve Settings
+        LIBS voltage temperature Keyboard EventBus Valve Settings TenSwitch Speaker
 )
 
 generate_arduino_library(
@@ -160,6 +175,46 @@ generate_arduino_library(
 )
 
 generate_arduino_library(
+        PrimarySelectionProgram
+        SRCS modules/PrimarySelectionProgram/PrimarySelectionProgram.cpp
+        HDRS modules/PrimarySelectionProgram/PrimarySelectionProgram.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS Program
+)
+
+generate_arduino_library(
+        PrimarySelectionSettingsProgram
+        SRCS modules/PrimarySelectionSettingsProgram/PrimarySelectionSettingsProgram.cpp
+        HDRS modules/PrimarySelectionSettingsProgram/PrimarySelectionSettingsProgram.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS Program ValveSettingsProgram EmptyProgram
+)
+
+generate_arduino_library(
+        WarmingUpProgram
+        SRCS modules/WarmingUpProgram/WarmingUpProgram.cpp
+        HDRS modules/WarmingUpProgram/WarmingUpProgram.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS Program PrimarySelectionProgram PrimarySelectionSettingsProgram
+)
+
+generate_arduino_library(
+        SoundProgram
+        SRCS modules/SoundProgram/SoundProgram.cpp
+        HDRS modules/SoundProgram/SoundProgram.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS Program AlkobusMenu EmptyProgram
+)
+
+generate_arduino_library(
+        MainProcessProgram
+        SRCS modules/MainProcessProgram/MainProcessProgram.cpp
+        HDRS modules/MainProcessProgram/MainProcessProgram.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS Program PrimarySelectionProgram PrimarySelectionSettingsProgram WarmingUpProgram SoundProgram
+)
+
+generate_arduino_library(
         SettingsProgram
         SRCS modules/SettingsProgram/SettingsProgram.cpp
         HDRS modules/SettingsProgram/SettingsProgram.h
@@ -172,9 +227,8 @@ generate_arduino_library(
         SRCS modules/MainMenu/MainMenu.cpp
         HDRS modules/MainMenu/MainMenu.h
         BOARD ${${PROJECT_NAME}_BOARD}
-        LIBS Program VoltageProgram AlkobusMenu SettingsProgram
+        LIBS Program VoltageProgram AlkobusMenu SettingsProgram MainProcessProgram
 )
-
 
 generate_arduino_library(
         ProgramManager

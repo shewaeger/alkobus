@@ -14,7 +14,7 @@
 #define STOP_TIMER (TCCR1B = 0)
 
 // Пин для подключения вывода, который управляет диммированием.
-#define POWER_PIN 4
+#define POWER_PIN 35
 // Пин для измерения входного напряжения
 #define VOLTAGE_PIN 3
 uint16_t dimmingGlob;

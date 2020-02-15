@@ -19,7 +19,7 @@ void PWMScaleSetProgram::setup() {
 void PWMScaleSetProgram::loop() {
     if(isExit){
         delete lcdOverflowString;
-        exit();
+        exit(0);
     }
     lcdOverflowString->loop();
     LiquidCrystal_I2C *lcd = ModManager::getManager()->getLCD();

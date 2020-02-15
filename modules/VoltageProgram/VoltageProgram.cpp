@@ -62,12 +62,7 @@ void VoltageProgram::event(Event *event) {
     }
 
     if(currentLine && code == BUTTON_OK) {
-        this->exit();
-//        if(valveSwitch)
-//            ModManager::getManager()->getValve()->open();
-//        else
-//            ModManager::getManager()->getValve()->close();
-//        valveSwitch = !valveSwitch;
+        this->exit(0);
     }
 
     if(code == BUTTON_RIGHT || code == BUTTON_LEFT){

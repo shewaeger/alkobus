@@ -76,13 +76,16 @@ uint64_t Valve::getPWMCount() {
     return this->pwmCount;
 }
 
-bool Valve::switchPWMStatus() {
-    this->pwmStatus = !this->pwmStatus;
-    return this->pwmStatus;
-}
-
 void Valve::setPWMStatus(bool status) {
     this->pwmStatus = status;
+}
+
+void Valve::enablePWM() {
+    setPWMStatus(true);
+}
+
+void Valve::disablePWM() {
+    setPWMStatus(false);
 }
 
 

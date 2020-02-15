@@ -41,7 +41,7 @@ void TimeSetProgram::loop() {
     buffer[16] = 0;
     char *bufPtr = buffer;
     if(isExit){
-        exit();
+        exit(0);
     }
     LiquidCrystal_I2C *lcd = ModManager::getManager()->getLCD();
 //    lcdOverflowString->loop();

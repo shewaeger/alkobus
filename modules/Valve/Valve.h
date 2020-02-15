@@ -49,7 +49,8 @@ public:
     uint64_t getPWMScale();
     uint64_t getOpeningDuration();
     void setPWMStatus(bool status);
-    bool switchPWMStatus();
+    void enablePWM();
+    void disablePWM();
     ~Valve();
 };
 
