@@ -166,6 +166,15 @@ generate_arduino_library(
         BOARD ${${PROJECT_NAME}_BOARD}
         LIBS Program LcdOverflowString TimeSetProgram PWMScaleSetProgram EmptyProgram
 )
+
+generate_arduino_library(
+        FindThermometerProgram
+        SRCS modules/FindThermometerProgram/FindThermometerProgram.cpp
+        HDRS modules/FindThermometerProgram/FindThermometerProgram.h
+        BOARD ${${PROJECT_NAME}_BOARD}
+        LIBS Program
+)
+
 generate_arduino_library(
         ProcessSettingsProgram
         SRCS modules/ProcessSettingsProgram/ProcessSettingsProgram.cpp
@@ -243,7 +252,7 @@ generate_arduino_library(
         SRCS modules/SettingsProgram/SettingsProgram.cpp
         HDRS modules/SettingsProgram/SettingsProgram.h
         BOARD ${${PROJECT_NAME}_BOARD}
-        LIBS Program EmptyProgram AlkobusMenu VoltageProgram ValveSettingsProgram VariableSetProgram TimeSetProgram ProcessSettingsProgram
+        LIBS Program EmptyProgram AlkobusMenu VoltageProgram ValveSettingsProgram VariableSetProgram TimeSetProgram ProcessSettingsProgram FindThermometerProgram
 )
 
 generate_arduino_library(

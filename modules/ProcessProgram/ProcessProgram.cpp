@@ -69,7 +69,7 @@ void ProcessProgram::drawScreen() {
 
     dtostrf(thermometer1->temperature, 5, 1, temp1Buffer);
     dtostrf(thermometer2->temperature, 5, 1, temp2Buffer);
-    sprintf(buffer, "t1:%s t2:%s", temp1Buffer, temp2Buffer);
+    sprintf(buffer, "T1:%s T2:%s", temp1Buffer, temp2Buffer);
     lcd->setCursor(0,0);
     lcd->print(buffer);
 

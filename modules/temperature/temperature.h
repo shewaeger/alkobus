@@ -25,6 +25,7 @@ private:
     uint8_t conversionBegin;
     EventBus *eventBus;
 public:
+    bool findThermometer(uint8_t * addr);
     Temperature(uint8_t dataPin, EventBus *eventBus);
     Thermometer * getThermometer(uint8_t *address);
     list_element *getThermometerList();

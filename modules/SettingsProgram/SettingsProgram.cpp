@@ -14,6 +14,8 @@
 #include <VariableSetProgram.h>
 #include <TimeSetProgram.h>
 #include <ValveSettingsProgram.h>
+#include <FindThermometerProgram.h>
+
 void SettingsProgram::setup() {
     LiquidCrystal_I2C *lcd = ModManager::getManager()->getLCD();
     this->menu = new AlkobusMenu(lcd);
@@ -22,7 +24,17 @@ void SettingsProgram::setup() {
     menu->addProgram(exitProgram);
 
     Settings_struct *settingsStruct = ModManager::getManager()->getSettings()->getStruct();
-    Program *p = new VariableSetProgram<float>("Initial temperature", &(settingsStruct->initialTemperature), 10,
+    Program *p;
+    p = new FindThermometerProgram("Find thermometer 1", settingsStruct->thermometer1Addr);
+    menu->addProgram(p);
+
+    p = new FindThermometerProgram("Find thermometer 2", settingsStruct->thermometer2Addr);
+    menu->addProgram(p);
+
+    p = new FindThermometerProgram("Find thermometer 2", settingsStruct->thermometer2Addr);
+    menu->addProgram(p);
+
+    p = new VariableSetProgram<float>("Initial temperature", &(settingsStruct->initialTemperature), 10,
                                                70, .5);
     menu->addProgram(p);
     p = new VariableSetProgram<float>("Working voltage", &(settingsStruct->workingVoltage), 50, 190, 1);
