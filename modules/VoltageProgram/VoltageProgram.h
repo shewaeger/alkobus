@@ -10,12 +10,13 @@
 
 class VoltageProgram : public Program {
 private:
+    char * name;
     double voltage;
     uint64_t voltageCounter;
-
+    bool valveSwitch;
     int currentLine;
 public:
-
+    VoltageProgram(char * name);
     virtual void backgroundLoop();
 
     virtual void setup();
@@ -23,6 +24,8 @@ public:
     virtual void loop();
 
     virtual void event(Event *event);
+
+    virtual char *getName();
 };
 
 

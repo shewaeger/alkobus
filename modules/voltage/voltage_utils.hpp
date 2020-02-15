@@ -4,22 +4,20 @@
  * Подключаем обработку прерываний
  */
 // Около 10мс
-#define TIME_TO_DOWN 0x4ae0
+#define TIME_TO_DOWN 0x4AE0
 
 // Пин для подключения датчика нуля. Использовать только ножки для прерываний (INT0 - INT5)
 #define NULL_PIN 2
 #define TIME_10_uS 0x0015
 
-#define START_TIMER_256 (TCCR1B = (1 << CS11)) // Таймер работает в clk / 256
+#define START_TIMER_256 (TCCR1B = (1 << CS11)) // Таймер работает в clk / 8
 #define STOP_TIMER (TCCR1B = 0)
 
 // Пин для подключения вывода, который управляет диммированием.
-#define POWER_PIN 5
+#define POWER_PIN 35
 // Пин для измерения входного напряжения
 #define VOLTAGE_PIN 3
 uint16_t dimmingGlob;
-
-//Прерывание при переходе через ноль
 void null_up() {
     OCR1A = TIME_TO_DOWN - dimmingGlob;
     OCR1B = OCR1A + TIME_10_uS;

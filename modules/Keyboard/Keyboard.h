@@ -7,9 +7,9 @@
 
 #include <Arduino.h>
 
-#define LONG_PUSH_TIME 40
-#define LONG_PUSH_EVENT_TIME 5
-
+#define LONG_PUSH_TIME 500
+#define LONG_PUSH_EVENT_TIME 100
+#define SHORT_PUSH_TIME 50
 #define NO_BUTTONS 0
 #define BUTTON_OK 1
 #define BUTTON_LEFT 2
@@ -26,7 +26,8 @@ private:
     uint8_t buttonLeftPin;
     uint8_t buttonRightPin;
     uint8_t buttonOkPin;
-
+    uint8_t shortKeyEvent = 0;
+    uint8_t longKeyEvent = 0;
     uint8_t lastKey = 0;
 
     uint32_t pushTime = 0;
@@ -37,11 +38,11 @@ private:
     void generateEvent(uint8_t type);
 public:
     Keyboard() :
-            buttonOkPin(22),
-            buttonLeftPin(24),
-            buttonRightPin(26),
-            buttonDownPin(28),
-            buttonUpPin(30) {}
+            buttonOkPin(23),
+            buttonLeftPin(25),
+            buttonRightPin(27),
+            buttonDownPin(29),
+            buttonUpPin(31) {}
 
             Keyboard(uint8_t ok, uint8_t left, uint8_t right, uint8_t down, uint8_t up, EventBus *eventBus);
 

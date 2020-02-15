@@ -5,7 +5,14 @@
 #include <EventBus.h>
 #include "Keyboard.h"
 
+
+
 void Keyboard::setup() {
+    pinMode(this->buttonUpPin, INPUT);
+    pinMode(this->buttonLeftPin, INPUT);
+    pinMode(this->buttonRightPin, INPUT);
+    pinMode(this->buttonDownPin, INPUT);
+    pinMode(this->buttonOkPin, INPUT);
     digitalWrite(this->buttonOkPin, HIGH);
     digitalWrite(this->buttonLeftPin, HIGH);
     digitalWrite(this->buttonRightPin, HIGH);
@@ -15,24 +22,28 @@ void Keyboard::setup() {
 
 void Keyboard::loop() {
     uint8_t button = getCurrentButton();
-//    Serial.print("PUSH_TIME: ");
-//    Serial.println(this->pushTime);
     if (button == NO_BUTTONS) {
         this->lastKey = NO_BUTTONS;
         this->pushTime = 0;
+        shortKeyEvent = 1;
+        longKeyEvent = 0;
     }
     else if (lastKey == button) { // Если эта кнопка уже была нажата
-        this->pushTime++;
-
-        if (this->pushTime > LONG_PUSH_TIME + LONG_PUSH_EVENT_TIME) {
-            this->pushTime = LONG_PUSH_TIME; // защита от переполнения переменной
+        if(millis() - this->pushTime > LONG_PUSH_TIME && !shortKeyEvent && !longKeyEvent){
             this->generateEvent(LONG_PUSH_KEY_EVENT);
+            this->pushTime = millis();
+            this->longKeyEvent = 1;
         }
-
+        if (millis() - this->pushTime > LONG_PUSH_EVENT_TIME && longKeyEvent) {
+            this->pushTime = millis();
+            this->generateEvent(LONG_PUSH_KEY_EVENT);
+        } else if(millis() - this->pushTime > SHORT_PUSH_TIME && shortKeyEvent){
+            this->generateEvent(SHORT_PUSH_KEY_EVENT);
+            shortKeyEvent = 0;
+        }
     } else {
         lastKey = button;
-        this->pushTime = 0;
-        this->generateEvent(SHORT_PUSH_KEY_EVENT);
+        this->pushTime = millis();
     }
 
 }

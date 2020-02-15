@@ -8,7 +8,7 @@
 struct Event;
 
 class Program {
-
+    int exitCode;
 public:
     Program();
     virtual ~Program();
@@ -16,7 +16,9 @@ public:
     virtual void setup();
     virtual void loop();
     virtual void event(Event *);
-    void exit();
+    virtual char * getName() = 0;
+    void exit(int retValue);
+    int getExitCode();
 };
 
 

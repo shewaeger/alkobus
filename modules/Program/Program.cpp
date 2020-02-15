@@ -28,11 +28,16 @@ void Program::event(Event *) {
     // Event listener
 }
 
-void Program::exit() {
-    void * program = this;
-    ModManager::getManager()->getEventBus()->generateEvent(PROGRAM_EXIT_EVENT, &program, sizeof(void *));
+void Program::exit(int retValue) {
+    Program *p = this;
+    this->exitCode = retValue;
+    ModManager::getManager()->getEventBus()->generateEvent(PROGRAM_EXIT_EVENT, &p, sizeof(Program *));
 }
 
 Program::~Program() {
 
+}
+
+int Program::getExitCode() {
+    return this->exitCode;
 }

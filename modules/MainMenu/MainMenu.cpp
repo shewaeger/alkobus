@@ -3,10 +3,15 @@
 //
 
 #include "MainMenu.h"
+#include <AlkobusMenu.h>
 #include <Arduino.h>
 #include <ModManager.h>
 #include <LiquidCrystal_I2C.h>
 #include <Keyboard.h>
+#include <VoltageProgram.h>
+#include <list_utils.h>
+#include <SettingsProgram.h>
+#include <MainProcessProgram.h>
 
 MainMenu::MainMenu() : Program() {
 
@@ -21,45 +26,54 @@ void MainMenu::backgroundLoop() {
 }
 
 void MainMenu::setup() {
+    this->programSelected = false;
     LiquidCrystal_I2C *lcd = ModManager::getManager()->getLCD();
-    this->counter = 0;
-    lcd->setCursor(0,0);
-    lcd->print("hello");
+
+    menu = new AlkobusMenu(lcd);
+    Program *p = new SettingsProgram();
+    menu->addProgram(p);
+    p = new MainProcessProgram();
+    menu->addProgram(p);
 }
 
 void MainMenu::loop() {
-    LiquidCrystal_I2C *lcd = ModManager::getManager()->getLCD();
-    lcd->setCursor(0, 1);
-    lcd->print(counter++);
+    if(programSelected){
+        programSelected = false;
+        Program * p = menu->getCurrentProgram();
+        ModManager::getManager()->getEventBus()->generateEvent(PROGRAM_RUN_EVENT, &p, sizeof(Program *));
+        return;
+    }
+    menu->loop();
+}
+
+char *MainMenu::getName() {
+    return "Main menu";
 }
 
 void MainMenu::event(Event *event) {
-    if(event->type == TEMPERATURE_UPDATE_EVENT)
-        return;
-    LiquidCrystal_I2C *lcd = ModManager::getManager()->getLCD();
-    lcd->clear();
-    lcd->setCursor(0,0);
-    switch (event ->type){
+    switch (event->type) {
         case SHORT_PUSH_KEY_EVENT:
         case LONG_PUSH_KEY_EVENT:
-            switch (*((uint8_t *)event->data)){
+            switch (*((uint8_t *) event->data)) {
                 case BUTTON_LEFT:
-                    lcd->print("Button left");
                     break;
                 case BUTTON_RIGHT:
-                    lcd->print("Button right");
                     break;
                 case BUTTON_DOWN:
-                    lcd->print("Button down");
+                    menu->selectorDown();
                     break;
                 case BUTTON_UP:
-                    lcd->print("Button up");
+                    menu->selectorUp();
                     break;
                 case BUTTON_OK:
-                    lcd->print("Button ok");
+                    programSelected = true;
                     break;
             }
+            break;
+        case CHILD_EXIT_EVENT:
+            break;
     }
 
 }
+
 

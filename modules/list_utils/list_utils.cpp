@@ -1,4 +1,5 @@
 #include <string.h>
+#include <HardwareSerial.h>
 #include "list_utils.h"
 
 void push_list_element(list_element **begin, void *data, size_t size) {
@@ -93,5 +94,6 @@ size_t count_list(list_element *begin) {
     size_t i = 0;
     list_element *el;
     for (el = begin; el != NULL; el = el->next, i++);
+//    Serial.println("test");
     return i;
 }

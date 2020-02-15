@@ -6,8 +6,9 @@
 #include <Keyboard.h>
 #include "VoltageProgram.h"
 #include "ModManager.h"
-#include "LiquidCrystal_I2C.h"
+#include <LiquidCrystal_I2C.h>
 #include "voltage.h"
+#include <Valve.h>
 
 void VoltageProgram::backgroundLoop() {
     Program::backgroundLoop();
@@ -18,7 +19,7 @@ void VoltageProgram::setup() {
     this->voltageCounter = 0;
     this->currentLine = 0;
     LiquidCrystal_I2C *lcd = ModManager::getManager()->getLCD();
-
+    lcd->clear();
     lcd->setCursor(1, 0);
     lcd->print("V:");
     lcd->setCursor(1, 1);
@@ -40,9 +41,10 @@ void VoltageProgram::loop() {
 
     lcd->setCursor(6, 0);
     lcd->print(voltageOut);
-
+    lcd->print("0.5");
     if(!(voltageCounter % 64)) {
         lcd->setCursor(9, 1);
+        lcd->print("0.00");
         lcd->print(voltage->getInputVoltage());
     }
     voltageCounter++;
@@ -59,8 +61,9 @@ void VoltageProgram::event(Event *event) {
         currentLine += (code == BUTTON_UP) ? -1 : +1;
     }
 
-    if(currentLine && code == BUTTON_OK)
-        this->exit();
+    if(currentLine && code == BUTTON_OK) {
+        this->exit(0);
+    }
 
     if(code == BUTTON_RIGHT || code == BUTTON_LEFT){
         VoltageControl *vc = ModManager::getManager()->getVoltageControl();
@@ -68,4 +71,12 @@ void VoltageProgram::event(Event *event) {
         this->voltage = vc->getCurrentVoltage();
     }
 
+}
+
+char *VoltageProgram::getName() {
+    return this->name;
+}
+
+VoltageProgram::VoltageProgram(char *name) {
+    this->name = name;
 }

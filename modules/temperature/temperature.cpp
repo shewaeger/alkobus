@@ -85,3 +85,47 @@ Temperature::Temperature(uint8_t dataPin, EventBus *eventBus) :
 list_element *Temperature::getThermometerList() {
     return this->thermometer_list;
 }
+
+Thermometer *Temperature::getThermometer(uint8_t *address) {
+    list_element *beg = thermometer_list;
+    for(list_element *beg = thermometer_list; beg != NULL; beg = beg->next){
+        Thermometer *current = (Thermometer*)(beg->data);
+       if(!memcmp(current->addr , address, 8)){
+           return current;
+       }
+    }
+    return NULL;
+}
+
+bool Temperature::findThermometer(uint8_t *addr) {
+    byte rom[9];
+    if(this->oneWire.search(addr)) {
+        Thermometer data;
+        memcpy(data.addr, addr, 8);
+
+        this->oneWire.write(0x44); // Начинаем конверсию
+
+        do {
+            this->oneWire.write_bit(0); // Ждем пока не закончится.
+        }while(!this->oneWire.read_bit());
+
+        this->oneWire.write(0xBE); // Получаем температуру
+
+        for(int i = 0; i < 9; i++){
+            rom[i] = this->oneWire.read();
+        }
+
+        int16_t raw = (rom[1] << 8) | rom[0];
+        byte cfg = (rom[4] & 0x60);
+        // at lower res, the low bits are undefined, so let's zero them
+        if (cfg == 0x00) raw = raw & ~7;  // 9 bit resolution, 93.75 ms
+        else if (cfg == 0x20) raw = raw & ~3; // 10 bit res, 187.5 ms
+        else if (cfg == 0x40) raw = raw & ~1; // 11 bit res, 375 ms
+        data.temperature = (float)raw / 16.;
+        if(!getThermometer(addr)) {
+            push_list_element(&this->thermometer_list, &data, sizeof(Thermometer));
+        }
+        return true;
+    }
+    return false;
+}
