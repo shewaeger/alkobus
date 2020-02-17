@@ -34,7 +34,14 @@ void Temperature::setup() {
         else if (cfg == 0x40) raw = raw & ~1; // 11 bit res, 375 ms
         data.temperature = (float)raw / 16.;
 
-
+        Serial.print("Found sensor: ");
+        for(int i = 0; i < 8; i++){
+            if(addr[i] <= 0xF)
+                Serial.print('0');
+            Serial.print(addr[i], HEX);
+            Serial.print(' ');
+        }
+        Serial.println();
 
         push_list_element(&this->thermometer_list, &data, sizeof(Thermometer));
     }
