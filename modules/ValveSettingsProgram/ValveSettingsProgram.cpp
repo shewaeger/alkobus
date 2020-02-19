@@ -35,22 +35,23 @@ void ValveSettingsProgram::setup() {
     p = new PWMScaleSetProgram(this->pwmScale);
     alkobusMenu->addProgram(p);
     unsigned long openingDurationMax;
-    if(*pwmCount) {
+    if (*pwmCount) {
         openingDurationMax = (*this->pwmScale ? 3600000 : 60000) / *(this->pwmCount);
     } else {
         openingDurationMax = 0;
     }
-    this->openingDurationProgram = new TimeSetProgram("Opening duration", this->openingDuration, openingDurationMax, FORMAT_MILLIS);
+    this->openingDurationProgram = new TimeSetProgram("Opening duration", this->openingDuration, openingDurationMax,
+                                                      FORMAT_MILLIS);
     alkobusMenu->addProgram(openingDurationProgram);
     this->exitProgram = new EmptyProgram("Exit");
     alkobusMenu->addProgram(exitProgram);
 }
 
 void ValveSettingsProgram::loop() {
-    if(programSelected){
+    if (programSelected) {
         programSelected = false;
-        Program * p = alkobusMenu->getCurrentProgram();
-        if(p == exitProgram){
+        Program *p = alkobusMenu->getCurrentProgram();
+        if (p == exitProgram) {
             delete alkobusMenu;
             exit(0);
             return;
@@ -83,15 +84,17 @@ void ValveSettingsProgram::event(Event *event) {
             }
             break;
         case CHILD_EXIT_EVENT:
-            if(*pwmCount) {
+            if (*pwmCount) {
                 tmp = (*this->pwmScale ? 3600000 : 60000) / *pwmCount;
             } else {
                 tmp = 0;
             }
-            if(*openingDuration > tmp){
+            if (*openingDuration > tmp) {
                 *openingDuration = tmp;
-                openingDurationProgram->setMaxTime(tmp);
             }
+            openingDurationProgram->setMaxTime(tmp);
+            Serial.print("Max opening duration: ");
+            Serial.println(tmp);
             ModManager::getManager()->getSettings()->saveSettings();
             break;
     }

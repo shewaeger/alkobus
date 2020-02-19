@@ -15,6 +15,7 @@ void FindThermometerProgram::setup() {
     this->isOk = false;
     this->isExit = false;
     this->found = false;
+    this->isFounding = false;
 }
 
 void FindThermometerProgram::loop() {
@@ -23,8 +24,9 @@ void FindThermometerProgram::loop() {
         return;
     }
 
-    if (isOk) {
+    if (isOk && !isFounding) {
         found = ModManager::getManager()->getThermometers()->findThermometer(addr);
+        isFounding = true;
     }
     drawScreen();
 }

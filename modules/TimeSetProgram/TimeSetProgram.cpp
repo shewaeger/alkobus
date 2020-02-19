@@ -91,7 +91,6 @@ TimeSetProgram::TimeSetProgram(char *name, unsigned long *variable, unsigned lon
 }
 
 void TimeSetProgram::setup() {
-    Serial.println("SETUP");
     ModManager::getManager()->getLCD()->clear();
     this->name = name;
     this->variable = variable;
@@ -104,7 +103,6 @@ void TimeSetProgram::event(Event *event) {
     switch (event->type){
         case SHORT_PUSH_KEY_EVENT:
         case LONG_PUSH_KEY_EVENT:
-            Serial.println("PUSH EVENT");
             switch (*(uint8_t *)event->data){
                 case BUTTON_LEFT:
                     selectorLeft();
@@ -114,11 +112,9 @@ void TimeSetProgram::event(Event *event) {
                     break;
                 case BUTTON_UP:
                     buttonUp();
-                    Serial.println(*variable);
                     break;
                 case BUTTON_DOWN:
                     buttonDown();
-                    Serial.println(*variable);
                     break;
                 case BUTTON_OK:
                     isExit = true;

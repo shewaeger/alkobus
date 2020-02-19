@@ -33,7 +33,8 @@ void WarmingUpProgram::loop() {
         lcd->print("thermometers    ");
         return;
     }
-    if(thermometer->temperature >= settings->processTemperatureStart || isExit){
+    if(thermometer->temperature >= settings->initialTemperature || isExit){
+        Serial.println("HEATED UP");
         ModManager::getManager()->getVoltageControl()->setVoltage(settings->workingVoltage);
         ModManager::getManager()->getTenSwitch()->disable();
         exit(0);
@@ -45,7 +46,7 @@ void WarmingUpProgram::loop() {
     char buffer[32];
     char numBuf[10];
     dtostrf(thermometer->temperature, 1, 2, numBuf);
-    sprintf(buffer, "t:%s\xDF      ", numBuf);
+    sprintf(buffer, "t:%s\xDF        ", numBuf);
     lcd->setCursor(0,0);
     lcd->print(buffer);
     buffer[0] = 0;

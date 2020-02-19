@@ -8,8 +8,7 @@
 #include <ModManager.h>
 #include <LiquidCrystal_I2C.h>
 #include <Keyboard.h>
-#include <VoltageProgram.h>
-#include <list_utils.h>
+#include <SoundProgram.h>
 #include <SettingsProgram.h>
 #include <MainProcessProgram.h>
 

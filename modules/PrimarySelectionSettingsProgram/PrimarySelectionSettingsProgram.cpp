@@ -14,7 +14,7 @@
 void PrimarySelectionSettingsProgram::setup() {
     LiquidCrystal_I2C *lcd = ModManager::getManager()->getLCD();
     this->menu = new AlkobusMenu(lcd);
-
+    programSelected = false;
     exitProgram = new EmptyProgram("Continue");
     menu->addProgram(exitProgram);
     Program *p = new ValveSettingsProgram(

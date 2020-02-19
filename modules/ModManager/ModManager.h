@@ -27,18 +27,21 @@ private:
     Settings *settings;
     TenSwitch *tenSwitch;
     Speaker * speaker;
+    Valve * mainRelay;
     ModManager();
-public:
 
+public:
     static ModManager * getManager();
     EventBus * getEventBus();
     LiquidCrystal_I2C * getLCD();
     Temperature * getThermometers();
     VoltageControl * getVoltageControl();
     Valve *getValve();
+    Valve *getMainRelay();
     Settings *getSettings();
     TenSwitch *getTenSwitch();
     Speaker *getSpeaker();
+
     void setup();
 
     void loop();

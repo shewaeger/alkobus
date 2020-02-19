@@ -15,6 +15,7 @@ Settings::Settings() {
 void Settings::saveSettings() {
     for(int i = 0; i < sizeof(settings); i++){
         EEPROM.update(i, *(((uint8_t *)&settings) + i));
+//        EEPROM.update(i, 0);
     }
 }
 

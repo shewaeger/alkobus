@@ -16,6 +16,9 @@ private:
     int selector;
     bool isExit;
 public:
+
+    virtual Program * getProgramBySelector(int selector);
+
     virtual int getSelector(int selector, int code);
 
     virtual void backgroundLoop();

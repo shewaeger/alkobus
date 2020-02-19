@@ -11,6 +11,7 @@
 #include <Keyboard.h>
 
 void DeltaCorrectionProgram::setup() {
+    Serial.println("DeltaCorrectionProgram");
     Settings_struct *settings = ModManager::getManager()->getSettings()->getStruct();
     thermometer1 = ModManager::getManager()->getThermometers()->getThermometer(settings->thermometer1Addr);
     thermometer2 = ModManager::getManager()->getThermometers()->getThermometer(settings->thermometer2Addr);
@@ -18,6 +19,7 @@ void DeltaCorrectionProgram::setup() {
 }
 
 void DeltaCorrectionProgram::loop() {
+    Serial.println("test");
     LiquidCrystal_I2C *lcd = ModManager::getManager()->getLCD();
     if(thermometer1 == NULL || thermometer2 == NULL){
         if(isExit){
@@ -39,10 +41,12 @@ void DeltaCorrectionProgram::loop() {
     char t2Str[6];
     char deltaStr[6];
     char buffer[32] = "";
+//    Serial.println(thermometer1->temperature);
+//    Serial.println(thermometer2->temperature);
     dtostrf(thermometer1->temperature, 3, 2, t1Str);
     dtostrf(thermometer2->temperature, 3, 2, t2Str);
     dtostrf(delta, 3, 2, deltaStr);
-    sprintf(buffer, "T1:%s T2:%s      ");
+    sprintf(buffer, "T1:%s T2:%s      ", t1Str, t2Str);
     lcd->setCursor(0, 0);
     lcd->print(buffer);
     sprintf(buffer, "D:%s ", deltaStr);

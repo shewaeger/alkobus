@@ -13,11 +13,11 @@ void SoundProgram::setup() {
     LiquidCrystal_I2C *lcd = ModManager::getManager()->getLCD();
     this->menu = new AlkobusMenu(lcd);
 
-    this->repeatProgram = new EmptyProgram("Repeat");
+    this->continueProgram = new EmptyProgram("Continue");
     menu->addProgram(continueProgram);
 
     if(showRepeat) {
-        this->continueProgram = new EmptyProgram("Continue");
+        this->repeatProgram = new EmptyProgram("Repeat");
         menu->addProgram(repeatProgram);
     }
 

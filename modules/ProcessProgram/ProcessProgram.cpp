@@ -24,6 +24,7 @@ void ProcessProgram::loop() {
     Settings_struct *settings = ModManager::getManager()->getSettings()->getStruct();
     Valve *valve = ModManager::getManager()->getValve();
     if(!isWrongDelta && fabs(thermometer1->temperature - thermometer2->temperature) > settings->allowedDelta){
+        Serial.println("Delta is wrong");
         isWrongDelta = true;
     }
     if(isWrongDelta){
@@ -31,8 +32,9 @@ void ProcessProgram::loop() {
         if(!firstStep && fabs(thermometer1->temperature - thermometer2->temperature) <= settings->allowedDelta){
             pts = thermometer1->temperature;
             calculateCoefficients();
-            isWrongDelta = false;
         }
+        isWrongDelta = false;
+        Serial.println("Delta is allowed");
     }
     if(thermometer1->temperature >= settings->processTemperatureEnd){
         exit(0);
@@ -67,13 +69,13 @@ void ProcessProgram::drawScreen() {
     char temp1Buffer[6];
     char temp2Buffer[6];
 
-    dtostrf(thermometer1->temperature, 5, 1, temp1Buffer);
-    dtostrf(thermometer2->temperature, 5, 1, temp2Buffer);
-    sprintf(buffer, "T1:%s T2:%s", temp1Buffer, temp2Buffer);
+    dtostrf(thermometer1->temperature, 2, 1, temp1Buffer);
+    dtostrf(thermometer2->temperature, 2, 1, temp2Buffer);
+    sprintf(buffer, "T1:%s T2:%s   ", temp1Buffer, temp2Buffer);
     lcd->setCursor(0,0);
     lcd->print(buffer);
 
-    dtostrf(fabs(thermometer1->temperature - thermometer2->temperature), 5, 1, temp1Buffer);
+    dtostrf(fabs(thermometer1->temperature - thermometer2->temperature), 2, 1, temp1Buffer);
     sprintf(buffer, "D:%s t:", temp1Buffer);
     unsigned long leftTime =  millis() - timeStart;
     unsigned long hour = leftTime / 3600000;

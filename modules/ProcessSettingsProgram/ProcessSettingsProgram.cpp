@@ -90,8 +90,10 @@ void ProcessSettingsProgram::event(Event *event) {
             }
             if(settings->processOpeningDuration100Percent > tmp){
                 settings->processOpeningDuration100Percent = tmp;
-                openingDurationProgram->setMaxTime(tmp);
             }
+            Serial.print("Max opening duration: ");
+            Serial.println(tmp);
+            openingDurationProgram->setMaxTime(tmp);
             ModManager::getManager()->getSettings()->saveSettings();
             break;
     }

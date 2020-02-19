@@ -22,164 +22,50 @@
 #include <Valve.h>
 #include <voltage.h>
 #include <TenSwitch.h>
+
 void MainProcessProgram::setup() {
-    Settings_struct *settings = ModManager::getManager()->getSettings()->getStruct();
     selector = 0;
     isExit = false;
-    Program *p;
-    //Selector = 0
-    p = new VariableSetProgram<float>("Set starting temperature", &(settings->processTemperatureStart),
-                                      30, 90, .5);
-    push_list_element(&this->items, &p, sizeof(Program *));
-
-    //Selector = 1
-    p = new WarmingUpProgram();
-    push_list_element(&this->items, &p, sizeof(Program *));
-
-    //Selector = 2
-    p = new SoundProgram(false);
-    push_list_element(&this->items, &p, sizeof(Program *));
-
-    //Selector = 3
-    p = new DeltaCorrectionProgram();
-    push_list_element(&this->items, &p, sizeof(Program *));
-
-    //Selector = 4
-    p = new PrimarySelectionSettingsProgram(
-            &(settings->head1Time),
-            &(settings->head1PWMCount),
-            &(settings->head1PWMScale),
-            &(settings->head1OpeningDuration));
-    push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 5
-    p = new PrimarySelectionProgram(
-            &(settings->head1Time),
-            &(settings->head1PWMCount),
-            &(settings->head1PWMScale),
-            &(settings->head1OpeningDuration));
-    push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 6
-    p = new SoundProgram(false);
-    push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 7
-    p = new PrimarySelectionSettingsProgram(
-            &(settings->head2Time),
-            &(settings->head2PWMCount),
-            &(settings->head2PWMScale),
-            &(settings->head2OpeningDuration));
-    push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 8
-    p = new PrimarySelectionProgram(
-            &(settings->head2Time),
-            &(settings->head2PWMCount),
-            &(settings->head2PWMScale),
-            &(settings->head2OpeningDuration));
-    push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 9
-    p = new SoundProgram(false);
-    push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 10
-    p = new ExtendedTimeMessageProgram();
-    push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 11
-    p = new PrimarySelectionSettingsProgram(
-            &(settings->headExTime),
-            &(settings->headExPWMCount),
-            &(settings->headExPWMScale),
-            &(settings->headExOpeningDuration));
-    push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 12
-    p = new PrimarySelectionProgram(
-            &(settings->headExTime),
-            &(settings->headExPWMCount),
-            &(settings->headExPWMScale),
-            &(settings->headExOpeningDuration));
-    push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 13
-    p = new SoundProgram(true);
-    push_list_element(&this->items, &p, sizeof(Program *));
-
-    //Selector = 14
-    p = new PrimarySelectionSettingsProgram(
-            &(settings->headrestTime),
-            &(settings->headrestPWMCount),
-            &(settings->headrestPWMScale),
-            &(settings->headrestOpeningDuration));
-    push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 15
-    p = new PrimarySelectionProgram(
-            &(settings->headrestTime),
-            &(settings->headrestPWMCount),
-            &(settings->headrestPWMScale),
-            &(settings->headrestOpeningDuration));
-    push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 16
-    p = new SoundProgram(false);
-    push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 17
-    p = new ExtendedTimeMessageProgram();
-    push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 18
-    p = new PrimarySelectionSettingsProgram(
-            &(settings->headrestExTime),
-            &(settings->headrestExPWMCount),
-            &(settings->headrestExPWMScale),
-            &(settings->headrestExOpeningDuration));
-    push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 19
-    p = new PrimarySelectionProgram(
-            &(settings->headrestExTime),
-            &(settings->headrestExPWMCount),
-            &(settings->headrestExPWMScale),
-            &(settings->headrestExOpeningDuration));
-    push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 20
-    p = new SoundProgram(true);
-    push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 21
-    p = new ProcessSettingsProgram();
-    push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 22
-    p = new ProcessProgram();
-    push_list_element(&this->items, &p, sizeof(Program *));
-    //Selector = 23
-    p = new SoundProgram(false);
-    push_list_element(&this->items, &p, sizeof(Program *));
+    ModManager::getManager()->getMainRelay()->open();
 }
 
 void MainProcessProgram::loop() {
 
-    if (selector >= count_list(items) || isExit) {
+    if(selector >= 24 || isExit){
         ModManager::getManager()->getSpeaker()->disable();
         ModManager::getManager()->getValve()->disablePWM();
         ModManager::getManager()->getVoltageControl()->setVoltage(0);
         ModManager::getManager()->getTenSwitch()->disable();
-        while (this->items) {
-            Program *p = *(Program **) get_list_element(items, 0);
-            delete p;
-            remove_list_element(&items, 0);
-        }
+        ModManager::getManager()->getMainRelay()->close();
         exit(0);
         return;
     }
-    Program *p = *(Program **) get_list_element(items, selector);
+
+    Program *p = getProgramBySelector(selector);
+    Serial.print("Next program: ");
+    Serial.print(selector);
+    Serial.print("(selector); ");
+    Serial.print((unsigned long) p, HEX);
+    Serial.println("(address)");
     ModManager::getManager()->getEventBus()->generateEvent(PROGRAM_RUN_EVENT, &p, sizeof(Program *));
 }
 
 void MainProcessProgram::event(Event *event) {
     if (event->type == CHILD_EXIT_EVENT) {
-        Program *p = (Program *)event->data;
+        Program *p = (Program *) event->data;
         switch (p->getExitCode()) {
             case 1: // необходимо выйти из программы
                 isExit = true;
                 break;
             default:
+                Serial.print("Selector: ");
+                Serial.println((unsigned long) p, HEX);
                 selector = getSelector(selector, p->getExitCode());
                 break; // Повторить программу
         }
-        Serial.print("Exit code: ");
-        Serial.println((unsigned long)p, HEX);
+        delete p;
     }
+
 }
 
 char *MainProcessProgram::getName() {
@@ -187,16 +73,16 @@ char *MainProcessProgram::getName() {
 }
 
 int MainProcessProgram::getSelector(int selector, int code) {
-    if(selector == 10 && code == 3){
+    if (selector == 10 && code == 3) {
         return selector + 4;
     }
-    if(selector == 13 && code == 2)
+    if (selector == 13 && code == 2)
         return selector - 2;
 
-    if(selector == 17 && code == 3)
+    if (selector == 17 && code == 3)
         return selector + 4;
 
-    if(selector == 20 && code == 2)
+    if (selector == 20 && code == 2)
         return selector - 2;
 
     return selector + 1;
@@ -205,10 +91,149 @@ int MainProcessProgram::getSelector(int selector, int code) {
 void MainProcessProgram::backgroundLoop() {
     Settings_struct *settings = ModManager::getManager()->getSettings()->getStruct();
     Thermometer *thermometer = ModManager::getManager()->getThermometers()->getThermometer(settings->thermometer3Addr);
-    if(thermometer == NULL)
+    if (thermometer == NULL)
         return;
-    if(thermometer->temperature > settings->errorTemperature){
-        Program *p = *(Program **)get_list_element(items, selector);
+    if (thermometer->temperature > settings->errorTemperature) {
+        Program *p = *(Program **) get_list_element(items, selector);
         p->exit(1);
+    }
+}
+
+Program *MainProcessProgram::getProgramBySelector(int selector) {
+    Settings_struct *settings = ModManager::getManager()->getSettings()->getStruct();
+//    return new SoundProgram(false);
+    switch (selector) {
+        case 0:
+            return new VariableSetProgram<float>("Set starting temperature", &(settings->initialTemperature),
+                                                 30, 90, .5);
+        case 1:
+            //Selector = 1
+            return new WarmingUpProgram();
+
+        case 2:
+            //Selector = 2
+            return new SoundProgram(true);
+        case 3:
+            //Selector = 3
+            return new DeltaCorrectionProgram();
+
+        case 4:
+            //Selector = 4
+            return new PrimarySelectionSettingsProgram(
+                    &(settings->head1Time),
+                    &(settings->head1PWMCount),
+                    &(settings->head1PWMScale),
+                    &(settings->head1OpeningDuration));
+
+        case 5:
+            //Selector = 5
+            return new PrimarySelectionProgram(
+                    &(settings->head1Time),
+                    &(settings->head1PWMCount),
+                    &(settings->head1PWMScale),
+                    &(settings->head1OpeningDuration));
+
+        case 6:
+            //Selector = 6
+            return new SoundProgram(false);
+
+        case 7:
+            //Selector = 7
+            return new PrimarySelectionSettingsProgram(
+                    &(settings->head2Time),
+                    &(settings->head2PWMCount),
+                    &(settings->head2PWMScale),
+                    &(settings->head2OpeningDuration));
+
+        case 8:
+            //Selector = 8
+            return new PrimarySelectionProgram(
+                    &(settings->head2Time),
+                    &(settings->head2PWMCount),
+                    &(settings->head2PWMScale),
+                    &(settings->head2OpeningDuration));
+
+        case 9:
+            //Selector = 9
+            return new SoundProgram(false);
+
+        case 10:
+            //Selector = 10
+            return new ExtendedTimeMessageProgram();
+
+        case 11:
+            //Selector = 11
+            return new PrimarySelectionSettingsProgram(
+                    &(settings->headExTime),
+                    &(settings->headExPWMCount),
+                    &(settings->headExPWMScale),
+                    &(settings->headExOpeningDuration));
+
+        case 12:
+            //Selector = 12
+            return new PrimarySelectionProgram(
+                    &(settings->headExTime),
+                    &(settings->headExPWMCount),
+                    &(settings->headExPWMScale),
+                    &(settings->headExOpeningDuration));
+
+        case 13:
+            //Selector = 13
+            return new SoundProgram(true);
+
+        case 14:
+            //Selector = 14
+            return new PrimarySelectionSettingsProgram(
+                    &(settings->headrestTime),
+                    &(settings->headrestPWMCount),
+                    &(settings->headrestPWMScale),
+                    &(settings->headrestOpeningDuration));
+
+        case 15:
+            //Selector = 15
+            return new PrimarySelectionProgram(
+                    &(settings->headrestTime),
+                    &(settings->headrestPWMCount),
+                    &(settings->headrestPWMScale),
+                    &(settings->headrestOpeningDuration));
+
+        case 16:
+            //Selector = 16
+            return new SoundProgram(false);
+
+        case 17:
+            //Selector = 17
+            return new ExtendedTimeMessageProgram();
+
+        case 18:
+            //Selector = 18
+            return new PrimarySelectionSettingsProgram(
+                    &(settings->headrestExTime),
+                    &(settings->headrestExPWMCount),
+                    &(settings->headrestExPWMScale),
+                    &(settings->headrestExOpeningDuration));
+
+        case 19:
+            //Selector = 19
+            return new PrimarySelectionProgram(
+                    &(settings->headrestExTime),
+                    &(settings->headrestExPWMCount),
+                    &(settings->headrestExPWMScale),
+                    &(settings->headrestExOpeningDuration));
+
+        case 20:
+            //Selector = 20
+            return new SoundProgram(true);
+
+        case 21:
+            //Selector = 21
+            return new ProcessSettingsProgram();
+
+        case 22:
+            //Selector = 22
+            return new ProcessProgram();
+        case 23:;
+            //Selector = 23
+            return new SoundProgram(false);
     }
 }

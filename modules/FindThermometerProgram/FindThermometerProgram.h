@@ -12,6 +12,7 @@ class FindThermometerProgram : public Program {
 private:
     bool isOk;
     bool found;
+    bool isFounding;
     bool isExit;
     char * name;
     uint8_t * addr;

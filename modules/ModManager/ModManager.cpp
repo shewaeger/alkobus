@@ -49,6 +49,7 @@ ModManager::ModManager() {
     this->lcd = new LiquidCrystal_I2C(0x3f, 16, 2);
 //    this->lcd = new LiquidCrystal_I2C(0x27, 16, 2);
     this->valve = new Valve(51);
+    this->mainRelay = new Valve(49, true);
     this->settings = new Settings();
     this->tenSwitch = new TenSwitch();
     this->speaker = new Speaker();
@@ -109,4 +110,8 @@ TenSwitch *ModManager::getTenSwitch() {
 
 Speaker *ModManager::getSpeaker() {
     return this->speaker;
+}
+
+Valve *ModManager::getMainRelay() {
+    return this->mainRelay;
 }
