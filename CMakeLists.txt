@@ -3,8 +3,8 @@ set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/ArduinoToolchain.cmake)
 set(CMAKE_CXX_STANDARD 11)
 set(PROJECT_NAME mega_power_driver)
 
-set(${PROJECT_NAME}_BOARD mega)
-set(ARDUINO_CPU atmega2560)
+set(${PROJECT_NAME}_BOARD uno)
+#set(ARDUINO_CPU atmega2560)
 project(${PROJECT_NAME})
 
 # Define additional source and header files or default arduino sketch files
@@ -286,11 +286,11 @@ link_directories(${CMAKE_CURRENT_SOURCE_DIR}/modules)
 #### Additional settings for programmer. From programmers.txt
 # set(${PROJECT_NAME}_PROGRAMMER avrispmkii)
 #set(${PROJECT_NAME}_PORT /dev/ttyUSB0)
-set(${PROJECT_NAME}_PORT COM12)
+set(${PROJECT_NAME}_PORT COM8)
 
-set(mega.upload.speed 9600)
+#set(mega.upload.speed 9600)
 
 ## Verbose build process
-set(${PROJECT_NAME}_AFLAGS -v)
+#set(${PROJECT_NAME}_AFLAGS -v)
 
 generate_arduino_firmware(${PROJECT_NAME} LIBS ModManager ProgramManager)

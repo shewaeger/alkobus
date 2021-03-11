@@ -48,7 +48,7 @@ void timer_setup(){
     attachInterrupt(digitalPinToInterrupt(NULL_PIN), null_up, RISING);
 
     // Для точности расчета входного напряжения используем внутреннее опорное напряжение в 1.1В
-    analogReference(INTERNAL1V1);
+    analogReference(INTERNAL);
 
     sei();
 }
